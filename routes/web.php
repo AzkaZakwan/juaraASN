@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    return view('landing');
+})->name('landing');
+Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 Route::get('/tryout', function () {
