@@ -90,13 +90,16 @@ class PaymentController extends Controller
         try {
             $status = MidtransTransaction::status($transaction->order_id);
 
+            $transactionStatus = data_get($status, 'transaction_status');
+            $paymentType = data_get($status, 'payment_type');
+
             if (
-                $status['transaction_status'] === 'settlement' ||
-                $status['transaction_status'] === 'capture'
+                $transactionStatus === 'settlement' ||
+                $transactionStatus === 'capture'
             ) {
                 $transaction->update([
                     'status' => 'paid',
-                    'payment_type' => $status['payment_type'] ?? null,
+                    'payment_type' => $paymentType,
                     'midtrans_response' => json_decode(json_encode($status), true),
                 ]);
 
@@ -110,6 +113,12 @@ class PaymentController extends Controller
                     ->with('success', 'Pembayaran berhasil. Paket sudah aktif.');
             }
 
+            $transaction->update([
+                'status' => $transactionStatus === 'pending' ? 'pending' : 'failed',
+                'payment_type' => $paymentType,
+                'midtrans_response' => json_decode(json_encode($status), true),
+            ]);
+
             return redirect()
                 ->route('tryout')
                 ->with('success', 'Pembayaran sedang diverifikasi. Silakan cek kembali beberapa saat lagi.');
@@ -120,7 +129,6 @@ class PaymentController extends Controller
                 ->with('error', 'Gagal memverifikasi pembayaran. Silakan coba beberapa saat lagi.');
         }
     }
-
     public function callback(Request $request)
     {
         $serverKey = config('midtrans.serverKey');
