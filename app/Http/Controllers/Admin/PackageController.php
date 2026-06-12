@@ -118,6 +118,13 @@ class PackageController extends Controller
             ->pluck('id')
             ->toArray();
 
+        if ($package->attempts()->whereNotNull('finished_at')->exists()) {
+                return redirect()
+                    ->route('packages.index')
+                    ->with('error', 'Paket ini sudah pernah dikerjakan user sehingga susunan soal tidak dapat diubah.');
+            }
+
+
         return view('admin.packages.questions', compact(
             'package',
             'questions',
@@ -127,6 +134,11 @@ class PackageController extends Controller
     
     public function storeQuestions(Request $request, Package $package)
     {
+        if ($package->attempts()->whereNotNull('finished_at')->exists()) {
+            return redirect()
+                ->route('packages.index')
+                ->with('error', 'Paket ini sudah pernah dikerjakan user sehingga susunan soal tidak dapat diubah.');
+        }
         $selectedIds = $request->questions ?? [];
 
         $questions = QuestionBank::whereIn('id', $selectedIds)->get();

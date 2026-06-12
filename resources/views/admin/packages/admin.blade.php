@@ -37,6 +37,12 @@
                 Daftar Try Out
             </h1>
 
+            @if(session('error'))
+                <div class="mb-4 bg-red-100 text-red-700 px-4 py-3 rounded-xl">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             @if(session('success'))
                 <div class="mb-4 bg-green-100 text-green-700 px-4 py-3 rounded-xl">
                     {{ session('success') }}
