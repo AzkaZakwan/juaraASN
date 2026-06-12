@@ -12,6 +12,10 @@
 @include('components.sidebar')
 @include('components.navbar')
 
+<div id="overlay"
+    class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300">
+</div>
+
 {{-- @php
     $answers = $attempt->answers;
     $current = $answers->first();
