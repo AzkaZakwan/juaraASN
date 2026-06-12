@@ -123,28 +123,44 @@
         q.options.forEach(option => {
             const isUserAnswer = userOptionId === Number(option.id);
             const isCorrect = Number(option.is_correct) === 1;
+            const isTkp = q.question_type === 'TKP';
 
             let textColor = 'text-gray-700';
             let borderColor = 'border-gray-300';
             let dotColor = 'bg-gray-300';
             let badge = '';
 
-            if (isCorrect) {
+            if (isCorrect && !isTkp) {
                 textColor = 'text-green-600';
                 borderColor = 'border-green-500';
                 dotColor = 'bg-green-500';
                 badge = '<span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded-lg font-bold">Benar</span>';
             }
 
-            if (isUserAnswer && !isCorrect) {
+            if (isUserAnswer && !isCorrect && !isTkp) {
                 textColor = 'text-red-500';
                 borderColor = 'border-red-500';
                 dotColor = 'bg-red-500';
                 badge = '<span class="ml-2 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-lg font-bold">Jawaban Anda</span>';
             }
 
-            if (isUserAnswer && isCorrect) {
+            if (isUserAnswer && isCorrect && !isTkp) {
                 badge = '<span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded-lg font-bold">Jawaban Anda Benar</span>';
+            }
+            let scoreBadge = '';
+
+            if (isTkp) {
+                scoreBadge = `
+                    <span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded-lg font-bold">
+                        ${option.score} Poin
+                    </span>
+                `;
+            }
+            if (isUserAnswer && isTkp) {
+                textColor = 'text-green-600';
+                borderColor = 'border-green-500';
+                dotColor = 'bg-green-500';
+                badge = '<span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded-lg font-bold">Jawaban Anda</span>';
             }
 
             html += `
@@ -156,6 +172,7 @@
                     <span>
                         ${option.option_label}. ${option.option_text}
                         ${badge}
+                        ${scoreBadge}
 
                         ${option.option_image ? `
                             <div class="mt-2">
@@ -172,14 +189,42 @@
         updateReviewButtons();
     }
 
+    function isQuestionWrong(q) {
+        const answer = answers[q.id] ?? null;
+
+        if (!answer) {
+            return true;
+        }
+
+        const selectedOption = q.options.find(
+            option => Number(option.id) === Number(answer.option_id)
+        );
+
+        if (!selectedOption) {
+            return true;
+        }
+
+        // TKP tidak ada benar/salah, jadi tidak dianggap salah
+        if (q.question_type === 'TKP') {
+            return false;
+        }
+
+        return Number(selectedOption.is_correct) !== 1;
+    }
+
     function updateReviewButtons() {
         document.querySelectorAll('.review-btn').forEach((btn, index) => {
-            btn.className = 'review-btn w-9 h-9 md:w-10 md:h-10 flex-shrink-0 flex items-center justify-center text-xs font-bold border rounded-lg transition-all duration-200 hover:scale-105';
+            const q = questions[index];
+            const wrong = isQuestionWrong(q);
+
+            btn.className = 'review-btn w-9 h-9 md:w-10 md:h-10 flex-shrink-0 flex items-center justify-center text-xs font-bold border-2 rounded-lg transition-all duration-200 hover:scale-105';
 
             if (index === currentIndex) {
                 btn.classList.add('bg-[#FF8B60]', 'border-[#FF8B60]', 'text-white');
+            } else if (wrong) {
+                btn.classList.add('bg-white', 'border-red-500', 'text-red-500');
             } else {
-                btn.classList.add('bg-white', 'border-[#FF8B60]', 'text-[#FF8B60]');
+                btn.classList.add('bg-white', 'border-green-500', 'text-green-600');
             }
         });
     }
