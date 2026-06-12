@@ -43,11 +43,12 @@
                 </p>
 
                 <!-- Form -->
-                <form>
+                <form method="POST" action="/register">
+                    @csrf
                     <!-- Username -->
                     <label class="text-sm">Nama</label>
                     <div class="relative mt-1 mb-2">
-                        <input type="text"
+                        <input type="text" name="name"
                             class="w-full border rounded-lg px-4 py-2 pl-10 focus:ring-2 focus:ring-orange-400 outline-none"
                             placeholder="Masukkan Nama.....">
                         <span class="absolute left-3 top-2.5">
@@ -62,7 +63,7 @@
                     <!-- Email -->
                     <label class="text-sm ">Email</label>
                     <div class="relative mt-1 mb-2">
-                        <input type="email"
+                        <input type="email" name="email"
                             class="w-full border rounded-lg px-4 py-2 pl-10 focus:ring-2 focus:ring-orange-400 outline-none"
                             placeholder="Masukkan Email.....">
                         <span class="absolute left-3 top-2.5">
@@ -75,7 +76,7 @@
                     </div>
 
                     <!-- Alamat -->
-                    <label class="text-sm">Alamat</label>
+                    {{-- <label class="text-sm">Alamat</label>
                     <div class="relative mt-1 mb-10">
                         <input type="text"
                             class="w-full border rounded-lg px-4 py-2 pl-10 focus:ring-2 focus:ring-orange-400 outline-none"
@@ -87,13 +88,13 @@
                                     d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                             </svg>
                         </span>
-                    </div>
+                    </div> --}}
 
 
                     <!-- Password -->
                     <label class="text-sm">Password</label>
                     <div class="relative mt-1 mb-2">
-                        <input id="password" type="password"
+                        <input id="password" type="password" name="password"
                             class="w-full border rounded-lg px-4 py-2 pl-10 pr-10 focus:ring-2 focus:ring-orange-400 outline-none"
                             placeholder="Masukkan Password....">
 
@@ -124,7 +125,7 @@
                     <div class="relative mt-1 mb-2">
                         <label class="text-sm">Ulangi Password</label>
 
-                        <input type="password" id="password2"
+                        <input type="password" id="password2" name="password_confirmation"
                             class="w-full border rounded-lg px-4 py-2 pl-10 pr-10 focus:ring-2 focus:ring-orange-400 outline-none"
                             placeholder="Masukkan Password....">
 
@@ -151,10 +152,10 @@
 
                     <!-- Button -->
                     <div class="mt-5">
-                        <a href="/loginASN"
+                        <button type="submit"
                             class="block w-full bg-orange-500 text-white py-2 rounded-lg text-center hover:bg-orange-600 transition">
-                            Sign In
-                        </a>
+                            Sign Up
+                        </button>
                     </div>
                     <!-- Divider -->
                     <div class="text-center text-gray-400 text-sm my-4">

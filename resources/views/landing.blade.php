@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -11,49 +11,68 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-[#FFF5F0] antialiased text-gray-800" style="font-family: 'Poppins', sans-serif; scroll-smooth">
+<body class="bg-[#FFF9F5] antialiased text-gray-800" style="font-family: 'Poppins', sans-serif; scroll-smooth">
 
     <!-- NAVBAR -->
     <nav id="navbar"
-        class="fixed top-0 left-0 w-full z-50 
-           bg-[#FF7A47]/90 backdrop-blur-md text-white 
+        class="fixed top-0 left-0 w-full z-50 bg-[#FFA35C]/90 backdrop-blur-md text-white 
            shadow-md transition-all duration-300 will-change-transform">
-
         <div
             class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 
                 flex justify-between items-center py-4 transition-all duration-300">
 
             <!-- LOGO -->
-            <div>
-                <img src="{{ asset('images/logoraih.png') }}" alt="logo" class="h-12 transition-all duration-300">
+            <div class="h-12 flex items-center overflow-visible">
+                <img src="{{ asset('images/juaraASN.png') }}"
+                    alt="logo"
+                    class="h-12 w-auto scale-125 origin-left transition-all duration-300">
             </div>
 
             <!-- MENU -->
-            <div class="hidden md:flex gap-6 items-center text-lg">
+            <div class="flex items-center gap-3 sm:gap-5 md:gap-6">
 
-                <a href="#" class="hover:text-orange-300 transition">
+                <a href="#" class="text-xs sm:text-sm md:text-lg hover:text-orange-300 transition">
                     Paket
                 </a>
-
-                <a href="#" class="hover:text-orange-300 transition">
+                <a href="#testimoni" class="text-xs sm:text-sm md:text-lg hover:text-orange-300 transition">
                     Testimoni
                 </a>
 
-                <a href="#" class="hover:text-orange-300 transition">
-                    Blog
+                <a href="#blog" class="text-xs sm:text-sm md:text-lg hover:text-orange-300 transition">
+                    Artikel
                 </a>
 
-                <a href="#" class="hover:text-orange-300 transition">
+                <a href="#about" class="hidden sm:block text-sm md:text-lg hover:text-orange-300 transition whitespace-nowrap">
                     Tentang Kami
                 </a>
+                
+                @guest
+                    <a href="{{ route('login') }}"
+                        class="bg-[#6FD8CA] px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm md:text-base text-white hover:bg-[#5ACAA1] transition">
+                        Login
+                    </a>
+                @endguest
 
-                <!-- BUTTON -->
-                <a href="{{ route('login') }}"
-                    class="inline-block bg-blue-500 px-4 py-2 rounded-xl text-white
-                       transition duration-300
-                       hover:bg-blue-600 hover:shadow-lg hover:scale-105 active:scale-95">
-                    Log in
-                </a>
+                @auth
+                    @if(auth()->user()->role === 'admin')
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="bg-[#6FD8CA] px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm md:text-base text-white hover:bg-[#5ACAA1] transition">
+                                Logout
+                            </button>
+                        </form>
+                    @else
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="bg-[#6FD8CA] px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm md:text-base text-white hover:bg-[#5ACAA1] transition">
+                                Logout
+                            </button>
+                        </form>
+                    @endif
+                @endauth
+
 
             </div>
         </div>
@@ -74,10 +93,26 @@
                 Ketahui kemampuanmu dan tingkatkan skor secara bertahap.
             </p>
 
-            <a href="{{ route('login') }}"
-                class="inline-block bg-blue-500 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-600 hover:shadow-lg hover:scale-105 transition">
-                Mulai Try Out
-            </a>
+            @guest
+                <a href="{{ route('login') }}"
+                    class="inline-block bg-[#6FD8CA] text-white px-6 py-3 rounded-xl shadow hover:bg-[#5ACAA1] hover:shadow-lg hover:scale-105 transition">
+                    Mulai Try Out
+                </a>
+            @endguest
+
+            @auth
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="inline-block bg-[#6FD8CA] text-white px-6 py-3 rounded-xl shadow hover:bg-[#5ACAA1] hover:shadow-lg hover:scale-105 transition">
+                        Dashboard Admin
+                    </a>
+                @else
+                    <a href="{{ route('tryout') }}"
+                        class="inline-block bg-[#6FD8CA] text-white px-6 py-3 rounded-xl shadow hover:bg-[#5ACAA1] hover:shadow-lg hover:scale-105 transition">
+                        Mulai Try Out
+                    </a>
+                @endif
+            @endauth
         </div>
 
         <!-- RIGHT IMAGE -->
@@ -87,7 +122,7 @@
     </section>
 
     <!-- ABOUT -->
-    <section class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 items-center gap-10">
+    <section id="about" class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 items-center gap-10">
 
         <!-- IMAGE -->
         <div class="flex justify-center relative">
@@ -97,7 +132,7 @@
 
         <!-- TEXT -->
         <div>
-            <h2 class="text-5xl font-bold mb-4">RaihASN</h2>
+            <h2 class="text-5xl font-bold mb-4">Juara ASN</h2>
 
             <p class="text-gray-600 mb-4 text-lg text-justify">
                 Kami adalah platform try out ASN yang hadir untuk membantu para pejuang
@@ -119,11 +154,11 @@
     </section>
 
     <!-- FITUR -->
-    <section class="relative py-20 px-6 bg-[#FFF5F0]">
+    <section class="relative py-20 px-6 bg-[#FFF9F5]">
         <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center">
 
             <!-- CARD 1 -->
-            <div class="bg-[#FF7A47] text-white p-10 rounded-2xl shadow-lg hover:scale-105 transition">
+            <div class="bg-[#FFA35C] text-white p-10 rounded-2xl shadow-lg hover:scale-105 transition">
                 <div class="flex justify-center text-5xl mb-4">
                     <img src="{{ asset('images/BookPencil.png') }}" alt="Bookpencil">
                 </div>
@@ -136,7 +171,7 @@
             </div>
 
             <!-- CARD 2 -->
-            <div class="bg-[#FF7A47] text-white p-10 rounded-2xl shadow-lg hover:scale-105 transition">
+            <div class="bg-[#6FD8CA] text-white p-10 rounded-2xl shadow-lg hover:scale-105 transition">
                 <div class="flex justify-center text-5xl mb-4">
                     <img src="{{ asset('images/Reading.png') }}" alt="Reading">
                 </div>
@@ -149,7 +184,7 @@
             </div>
 
             <!-- CARD 3 -->
-            <div class="bg-[#FF7A47] text-white p-10 rounded-2xl shadow-lg hover:scale-105 transition">
+            <div class="bg-[#FFA35C] text-white p-10 rounded-2xl shadow-lg hover:scale-105 transition">
                 <div class="flex justify-center text-5xl mb-4">
                     <img src="{{ asset('images/Rules.png') }}" alt="Rules">
                 </div>
@@ -164,11 +199,11 @@
     </section>
 
     <!-- TESTIMONI -->
-    <section class="py-20 px-6 bg-[#FFF5F0]">
+    <section id="testimoni" class="py-20 px-6 bg-[#FFA35C]">
 
         <div class="max-w-6xl mx-auto text-center mb-10">
-            <h2 class="text-3xl font-bold mb-2">Apa Kata Mereka?</h2>
-            <p class="text-gray-500">Banyak yang sudah berhasil, ini kata mereka</p>
+            <h2 class="text-5xl font-bold mb-2 text-white">Apa Kata Mereka?</h2>
+            <p class="text-white">Banyak yang sudah berhasil, ini kata mereka</p>
         </div>
 
         <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -270,90 +305,96 @@
         </div>
 
     </section>
-    <!-- PAKET BELAJAR -->
 
-    <section class="rounded-2xl p-8 mb-12 max-w-4xl mx-auto">
+
+    <!-- Artikel -->
+    <section id="blog" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="max-w-6xl mx-auto text-center mb-10">
-            <h2 class="text-3xl font-bold mb-2">Paket</h2>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-10 max-w-3xl mx-auto">
-
-            <!-- Guest -->
-            <div class="bg-[#FF7A47] rounded-xl p-3 shadow-md bg-gradient-to-b from-[#FF7A47] to-[#FF8B60]">
-                <div class="bg-white rounded-lg p-4">
-                    <h3>Gratis</h3>
-                    <p class="text-3xl font-bold">Rp 0</p>
-                    <button class="mt-3 bg-[#FF7A47] text-white text-xs px-5 py-1 rounded-full">
-                        Coba Sekarang
-                    </button>
-                </div>
-
-                <ul class="text-white mt-4 text-sm space-y-1 list-disc list-inside">
-                    <li>a</li>
-                    <li>b</li>
-                    <li>c</li>
-                    <li>d</li>
-                    <li>e</li>
-                    <li>f</li>
-                </ul>
-            </div>
-
-            <!-- Premium -->
-            <div class="bg-[#FF7A47] rounded-xl p-3 shadow-md bg-gradient-to-b from-[#FF7A47] to-[#FF8B60]">
-                <div class="bg-white rounded-lg p-4">
-                    <h3>Premium</h3>
-                    <p class="text-3xl font-bold">Rp 90.000</p>
-                    <button class="mt-3 bg-[#FF7A47] text-white text-xs px-5 py-1 rounded-full">
-                        Coba Sekarang
-                    </button>
-                </div>
-
-                <ul class="text-white mt-4 text-sm space-y-1 list-disc list-inside">
-                    <li>a</li>
-                    <li>b</li>
-                    <li>c</li>
-                    <li>d</li>
-                    <li>e</li>
-                    <li>f</li>
-                </ul>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ARTIKEL -->
-    <section class="mb-1 max-w-4xl mx-auto">
-        <div class="max-w-6xl mx-auto text-center mb-10">
-            <h2 class="text-3xl font-bold mb-2">Artikel</h2>
+            <h2 class="text-5xl font-bold mb-2">Artikel</h2>
         </div>
 
         <div class="space-y-4 max-h-[510px] overflow-y-auto pr-2 pb-4">
-            @for ($i = 1; $i <= 5; $i++)
-                <div class="bg-white border rounded-xl p-4 flex gap-4 shadow-sm">
-                    <div class="w-20 h-20 bg-gray-200 rounded-md"></div>
-                    <div>
-                        <p class="text-xs text-gray-500">Tanggal</p>
-                        <h3 class="font-semibold">Judul Artikel</h3>
-                        <p class="text-sm text-gray-600">Isi Artikel</p>
-                    </div>
+            @forelse($articles as $article)
+
+            <div class="bg-white border rounded-xl p-4 flex gap-4 shadow-sm hover:shadow-md transition">
+
+                <div class="w-20 h-20 rounded-md overflow-hidden flex-shrink-0">
+
+                    @if($article->image)
+                        <img src="{{ asset('storage/' . $article->image) }}"
+                            class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full bg-gray-200"></div>
+                    @endif
+
                 </div>
-            @endfor
+
+                <div class="flex-1">
+
+                    <p class="text-xs text-gray-500">
+                        {{ $article->created_at->format('d M Y') }}
+                    </p>
+
+                    <h3 class="font-semibold">
+                        {{ $article->title }}
+                    </h3>
+
+                    <p class="text-sm text-gray-600">
+                        {{ Str::limit(strip_tags($article->content), 100) }}
+                    </p>
+
+                    <a href="{{ route('articles.show', $article->slug) }}"
+                        class="text-[#FFA35C] text-sm font-semibold mt-2 inline-block">
+                        Baca Selengkapnya →
+                    </a>
+
+                </div>
+
+            </div>
+            @empty
+            <div class="bg-white border rounded-xl p-6 text-center text-gray-500">
+                Belum ada artikel.
+            </div>
+
+            @endforelse
+        </div>
+        <div class="text-center mt-6">
+            <a href="{{ route('articles.index') }}"
+                class="inline-block bg-[#FFA35C] text-white px-6 py-3 rounded-xl hover:bg-[#f08b36] transition">
+                Lihat Semua Artikel
+            </a>
+
         </div>
     </section>
 
     <!-- CTA SECTION -->
-    <section class="bg-[#FFF5F0] py-16 px-6">
+    <section class="bg-[#FFF9F5] py-16 px-6">
         <div
-            class="max-w-5xl mx-auto bg-gradient-to-b from-[#FF7A47] to-[#FFB199] text-white rounded-3xl text-center py-12 px-6 shadow-lg">
-            <h2 class="text-xl md:text-2xl font-semibold mb-6">
+            class="max-w-5xl mx-auto bg-gradient-to-b from-[#FFA35C] to-[#FFD5B8] text-white rounded-3xl text-center py-12 px-6 shadow-lg">
+            <h2 class="text-2xl md:text-4xl font-bold mb-6 leading-relaxed">
                 Mulai hari ini, <BR>selangkah lebih dekat jadi ASN</BR>
             </h2>
 
-            <a href="/tryout"
-                class="inline-block bg-white text-[#FF7A47] font-semibold px-6 py-3 rounded-xl shadow hover:scale-105 hover:bg-orange-100 transition">
-                Mulai Belajar
-            </a>
+            @guest
+                <a href="{{ route('login') }}"
+                    class="inline-block bg-[#6FD8CA] text-white font-semibold px-6 py-3 rounded-xl shadow hover:scale-105 hover:bg-[#5BC4B7] transition">
+                    Mulai Belajar
+                </a>
+            @endguest
+
+            @auth
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="inline-block bg-white text-[#6FD8CA] font-semibold px-6 py-3 rounded-xl shadow hover:scale-105 hover:bg-orange-100 transition">
+                        Dashboard Admin
+                    </a>
+                @else
+                    <a href="{{ route('tryout') }}"
+                        class="inline-block bg-white text-[#6FD8CA] font-semibold px-6 py-3 rounded-xl shadow hover:scale-105 hover:bg-orange-100 transition">
+                        Mulai Belajar
+                    </a>
+                @endif
+            @endauth
         </div>
     </section>
     @include('components.footer')

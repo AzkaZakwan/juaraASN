@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 🔽 Scroll ke bawah → hide
         if (currentScroll > lastScroll && currentScroll > 50) {
             navbar.style.transform = "translateY(-100%)";
-        } 
+        }
         // 🔼 Scroll ke atas → show
         else {
             navbar.style.transform = "translateY(0)";
@@ -81,5 +81,142 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // klik luar (overlay)
     overlay.addEventListener("click", closeSidebar);
+
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const leaderboardButtons = document.querySelectorAll(".leaderboard-btn");
+
+    if (leaderboardButtons.length > 0) {
+
+        leaderboardButtons.forEach((button) => {
+
+            button.addEventListener("click", () => {
+
+                leaderboardButtons.forEach((btn) => {
+
+                    btn.classList.remove(
+                        "bg-[#FF7A47]",
+                        "text-white"
+                    );
+
+                    btn.classList.add(
+                        "border",
+                        "border-[#FF7A47]",
+                        "text-[#FF7A47]"
+                    );
+
+                });
+
+                button.classList.remove(
+                    "border",
+                    "border-[#FF7A47]",
+                    "text-[#FF7A47]"
+                );
+
+                button.classList.add(
+                    "bg-[#FF7A47]",
+                    "text-white"
+                );
+
+            });
+
+        });
+
+    }
+
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const rankingOverlay = document.getElementById("rankingOverlay");
+    const openRanking = document.getElementById("openRanking");
+    const closeRanking = document.getElementById("closeRanking");
+
+    if (openRanking && rankingOverlay) {
+
+        openRanking.addEventListener("click", () => {
+
+            rankingOverlay.classList.remove("hidden");
+
+            setTimeout(() => {
+                rankingOverlay.classList.remove("opacity-0");
+            }, 10);
+
+        });
+
+    }
+
+    if (closeRanking && rankingOverlay) {
+
+        closeRanking.addEventListener("click", () => {
+
+            rankingOverlay.classList.add("opacity-0");
+
+            setTimeout(() => {
+                rankingOverlay.classList.add("hidden");
+            }, 300);
+
+        });
+
+    }
+
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const reminderOverlay = document.getElementById("reminderOverlay");
+    const openReminder = document.getElementById("openReminder");
+    const closeReminder = document.getElementById("closeReminder");
+
+    // OPEN
+    if (openReminder && reminderOverlay) {
+
+        openReminder.addEventListener("click", () => {
+
+            reminderOverlay.classList.remove("hidden");
+
+            setTimeout(() => {
+                reminderOverlay.classList.remove("opacity-0");
+            }, 10);
+
+        });
+
+    }
+
+    // CLOSE
+    if (closeReminder && reminderOverlay) {
+
+        closeReminder.addEventListener("click", () => {
+
+            reminderOverlay.classList.add("opacity-0");
+
+            setTimeout(() => {
+                reminderOverlay.classList.add("hidden");
+            }, 300);
+
+        });
+
+    }
+
+    // CLICK OUTSIDE
+    if (reminderOverlay) {
+
+        reminderOverlay.addEventListener("click", (e) => {
+
+            if (e.target === reminderOverlay) {
+
+                reminderOverlay.classList.add("opacity-0");
+
+                setTimeout(() => {
+                    reminderOverlay.classList.add("hidden");
+                }, 300);
+
+            }
+
+        });
+
+    }
 
 });

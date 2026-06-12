@@ -1,11 +1,11 @@
     <!-- FOOTER -->
-    <footer class="bg-[#FF7A47] text-white pt-14 pb-6 px-6">
+    <footer class="bg-[#FFA35C] text-white pt-14 pb-6 px-6">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10">
 
             <!-- Logo -->
             <div class="text-center">
                 <div class="flex justify-center">
-                    <img src="{{ asset('images/logoraih.png') }}" alt="logo" class="h-20">
+                    <img src="{{ asset('images/juaraASN.png') }}" alt="logo" class="h-20">
                 </div>
                 <p class="text-sm opacity-90 mt-2">
                     Platform Try Out ASN Terpercaya untuk masa depan Anda
@@ -16,20 +16,49 @@
             <div>
                 <h3 class="font-semibold mb-3">Navigasi</h3>
                 <ul class="space-y-2 text-sm opacity-90">
-                    <li><a href="#" class="hover:underline">Beranda</a></li>
-                    <li><a href="#" class="hover:underline">Paket</a></li>
-                    <li><a href="#" class="hover:underline">Tentang Kami</a></li>
-                    <li><a href="#" class="hover:underline">Kontak</a></li>
+                    <li>
+                        <a href="{{ route('landing') }}" class="hover:underline">
+                            Beranda
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('articles.index') }}" class="hover:underline">
+                            Artikel
+                        </a>
+                    </li>
+
+                    <li>
+                         <a href="{{ route('landing') }}#about" class="hover:underline">
+                            Tentang Kami
+                        </a>
+                    </li>
                 </ul>
             </div>
 
-            <!-- Layanan -->
+            <!-- Layanan -->            
             <div>
                 <h3 class="font-semibold mb-3">Layanan</h3>
                 <ul class="space-y-2 text-sm opacity-90">
-                    <li>Try Out SKD</li>
-                    <li>Latihan Soal</li>
-                    <li>Materi</li>
+                    <li>
+                        <a href="{{ auth()->check() ? route('tryout') : route('login') }}"
+                            class="hover:underline">
+                            Try Out SKD
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="hover:underline">
+                            Materi 
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ auth()->check() ? route('riwayat') : route('login') }}"
+                            class="hover:underline">
+                            Riwayat Try Out
+                        </a>
+                    </li>
                 </ul>
             </div>
 

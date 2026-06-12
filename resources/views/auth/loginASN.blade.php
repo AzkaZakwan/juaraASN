@@ -42,11 +42,12 @@
                 </p>
 
                 <!-- Form -->
-                <form>
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
                     <!-- Username -->
                     <label class="text-sm">Username / Email</label>
                     <div class="relative mt-1 mb-4">
-                        <input type="text"
+                        <input type="text" name="email"
                             class="w-full border rounded-lg px-4 py-2 pl-10 focus:ring-2 focus:ring-orange-400 outline-none"
                             placeholder="Masukkan Username/Email....">
                         <span class="absolute left-3 top-2.5">
@@ -62,7 +63,7 @@
                     <label class="text-sm">Password</label>
                     <div class="relative mt-1 mb-2">
 
-                        <input id="password" type="password"
+                        <input id="password" type="password" name="password"
                             class="w-full border rounded-lg px-4 py-2 pl-10 pr-10 focus:ring-2 focus:ring-orange-400 outline-none"
                             placeholder="Masukkan Password....">
 
@@ -90,23 +91,22 @@
 
                         <p class="text-xs text-gray-500 mb-4 mt-2">
                             Belum punya akun?
-                            <a href="/signupASN" class="text-orange-500">Daftar Sekarang</a>
+                            <a href="{{ route('register') }}" class="text-orange-500">Daftar Sekarang</a>
                         </p>
                         <!-- Links -->
                         <div class="flex justify-between text-xs text-gray-500 mb-4 mt-2">
                             <label class="flex items-center gap-1">
                                 <input type="checkbox"> Ingat Saya
                             </label>
-                            <a href="#" class="hover:underline">Lupa Password?</a>
+                            <a href="{{ route('password.request') }}" class="hover:underline">Lupa Password?</a>
                         </div>
 
 
                         <!-- Button -->
                         <div class="mt-5">
-                            <a href="{{ route('dashboard') }}"
-                                class="block w-full bg-orange-500 text-white py-2 rounded-lg text-center hover:bg-orange-600 transition">
+                            <button type="submit" class="block w-full bg-orange-500 text-white py-2 rounded-lg text-center hover:bg-orange-600 transition">
                                 Log In
-                            </a>
+                            </button>
                         </div>
 
                         <!-- Divider -->
