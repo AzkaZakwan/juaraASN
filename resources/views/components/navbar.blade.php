@@ -33,10 +33,21 @@
                     d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
         </div> --}}
-        <a href="{{ route('edit') }}">
-        <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
-            class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-white"
-            alt="Profile">
+        {{-- profile avatar --}}
+        <a href="{{ route('edit') }}"
+            class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center border-2 border-white hover:scale-105 transition">
+
+            <svg xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                class="w-6 h-6 text-[#FFA35C]">
+
+                <path fill-rule="evenodd"
+                    d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0ZM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5a18.683 18.683 0 01-7.812-1.7.75.75 0 01-.437-.695Z"
+                    clip-rule="evenodd" />
+
+            </svg>
+
         </a>
 
         <form method="POST" action="{{ route('logout') }}">
