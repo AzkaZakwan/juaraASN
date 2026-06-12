@@ -92,7 +92,7 @@
                     </label>
                     <div class="relative">
 
-                        <<input
+                        <input
                             type="email"
                             value="{{ Auth::user()->email }}"
                             readonly
