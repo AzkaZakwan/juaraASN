@@ -87,15 +87,16 @@
 
                 {{-- EMAIL --}}
                 <div>
-
                     <label class="block text-sm mb-2 font-medium">
                         Email
                     </label>
-
                     <div class="relative">
 
-                        <input type="email" name="email" value="{{ old('email', Auth::user()->email) }}"
-                            class="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-300">
+                        <<input
+                            type="email"
+                            value="{{ Auth::user()->email }}"
+                            readonly
+                            class="w-full bg-gray-100 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-gray-500 cursor-not-allowed">
 
                  <svg xmlns="http://www.w3.org/2000/svg"
                             class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none"
@@ -208,7 +209,7 @@
 
                     <button type="submit"
                         class="bg-[#FF7A47] hover:bg-[#f06a37] transition text-white px-14 py-3 rounded-xl font-medium shadow-md hover:scale-105">
-                        Edit
+                        Simpan Perubahan
                     </button>
 
                 </div>

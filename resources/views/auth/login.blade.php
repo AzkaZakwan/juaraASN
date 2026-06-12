@@ -200,13 +200,13 @@
                     <div
                         class="flex justify-between items-center text-xs sm:text-sm text-gray-500 mb-6">
 
-                        <label class="flex items-center gap-2">
+                        {{-- <label class="flex items-center gap-2">
 
                             <input type="checkbox" name="remember">
 
                             Ingat Saya
 
-                        </label>
+                        </label> --}}
 
                         <a href="{{ route('password.request') }}"
                             class="hover:underline">
