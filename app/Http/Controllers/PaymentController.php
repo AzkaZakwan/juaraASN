@@ -9,6 +9,7 @@ use Midtrans\Config;
 use Midtrans\Snap;
 use App\Models\UserPackage;
 use Illuminate\Http\Request;
+use Midtrans\Transaction as MidtransTransaction;
 
 class PaymentController extends Controller
 {
@@ -81,15 +82,43 @@ class PaymentController extends Controller
             abort(403);
         }
 
-        if ($transaction->status === 'paid') {
+        Config::$serverKey = config('midtrans.serverKey');
+        Config::$isProduction = config('midtrans.isProduction');
+        Config::$isSanitized = config('midtrans.isSanitized');
+        Config::$is3ds = config('midtrans.is3ds');
+
+        try {
+            $status = MidtransTransaction::status($transaction->order_id);
+
+            if (
+                $status['transaction_status'] === 'settlement' ||
+                $status['transaction_status'] === 'capture'
+            ) {
+                $transaction->update([
+                    'status' => 'paid',
+                    'payment_type' => $status['payment_type'] ?? null,
+                    'midtrans_response' => json_decode(json_encode($status), true),
+                ]);
+
+                UserPackage::firstOrCreate([
+                    'user_id' => $transaction->user_id,
+                    'package_id' => $transaction->package_id,
+                ]);
+
+                return redirect()
+                    ->route('tryout')
+                    ->with('success', 'Pembayaran berhasil. Paket sudah aktif.');
+            }
+
             return redirect()
                 ->route('tryout')
-                ->with('success', 'Pembayaran berhasil. Paket sudah aktif.');
-        }
+                ->with('success', 'Pembayaran sedang diverifikasi. Silakan cek kembali beberapa saat lagi.');
 
-        return redirect()
-            ->route('tryout')
-            ->with('success', 'Pembayaran sedang diverifikasi. Paket akan aktif otomatis setelah pembayaran dikonfirmasi.');
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('tryout')
+                ->with('error', 'Gagal memverifikasi pembayaran. Silakan coba beberapa saat lagi.');
+        }
     }
 
     public function callback(Request $request)
