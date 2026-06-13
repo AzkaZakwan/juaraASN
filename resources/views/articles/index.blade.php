@@ -109,7 +109,8 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             @forelse($articles as $article)
-                <div class="bg-white rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
+                <div
+                    class="bg-white rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition flex flex-col h-full min-h-[430px]">
 
                     {{-- Gambar --}}
                     <div class="aspect-[16/9] bg-gray-100 overflow-hidden">
@@ -124,22 +125,22 @@
                     </div>
 
                     {{-- Content --}}
-                    <div class="p-5">
+                    <div class="p-5 flex flex-col flex-1">
 
                         <p class="text-xs text-gray-400 mb-2">
                             {{ $article->created_at->format('d M Y') }}
                         </p>
 
-                        <h2 class="font-bold text-xl mb-3">
+                        <h2 class="font-bold text-xl mb-3 line-clamp-2 min-h-[56px]">
                             {{ $article->title }}
                         </h2>
 
-                        <p class="text-gray-600 text-sm mb-4">
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-1">
                             {{ Str::limit(strip_tags($article->content), 120) }}
                         </p>
 
                         <a href="{{ route('articles.show', $article->slug) }}"
-                            class="inline-block text-[#FFA35C] font-semibold">
+                            class="inline-block text-[#FFA35C] font-semibold mt-auto">
                             Baca Selengkapnya →
                         </a>
 
