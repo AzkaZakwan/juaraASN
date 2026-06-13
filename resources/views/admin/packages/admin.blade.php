@@ -7,7 +7,7 @@
     <title>Manajemen Try Out</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -49,10 +49,26 @@
                 </div>
             @endif
 
-            <div class="space-y-4">
+            <!-- SEARCH -->
+            <div class="flex gap-3 mb-6">
+                <div class="relative flex-1">
 
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Cari Try Out..."
+                        class="w-full bg-white rounded-xl shadow px-10 py-3 outline-none focus:ring-2 focus:ring-orange-300">
+
+                    <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        🔍
+                    </div>
+
+                </div>
+            </div>
+            <div id="packageList"
+                class="space-y-4 max-h-[550px] overflow-y-auto pr-2">
                 @forelse ($packages as $package)
-                    <div class="bg-[#FFA35C] rounded-xl p-5 flex items-center justify-between shadow-md hover:scale-[1.01] transition">
+                    <div class="package-card bg-[#FFA35C] rounded-xl p-5 flex items-center justify-between shadow-md hover:scale-[1.01] transition">
 
                         <div class="text-white">
                             <h2 class="font-bold text-lg">
@@ -74,6 +90,15 @@
                         </div>
 
                         <div class="flex gap-2">
+                            <form action="{{ route('packages.toggleActive', $package->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+
+                                <button type="submit"
+                                    class="bg-white hover:bg-gray-50 text-gray-800 px-3 h-10 rounded-lg flex items-center justify-center hover:scale-110 transition text-sm font-semibold shadow-sm">
+                                    {{ $package->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                </button>
+                            </form>
 
                             <a href="{{ route('packages.edit', $package->id) }}"
                                 class="bg-white text-gray-800 w-10 h-10 rounded-lg flex items-center justify-center hover:scale-110 transition">
@@ -92,6 +117,10 @@
                         Belum ada paket try out.
                     </div>
                 @endforelse
+                <div
+                    id="emptyMessage"
+                    class="hidden text-center text-gray-500 py-10">
+                </div>
 
             </div>
 
@@ -137,6 +166,37 @@
         </div>
 
     </main>
+    <script>
+        const searchInput = document.getElementById('searchInput');
 
+        searchInput.addEventListener('input', function () {
+
+            const keyword = this.value.toLowerCase().trim();
+            let visible = 0;
+
+            document.querySelectorAll('.package-card').forEach(card => {
+
+                const text = card.innerText.toLowerCase();
+
+                if (text.includes(keyword)) {
+                    card.style.display = 'flex';
+                    visible++;
+                } else {
+                    card.style.display = 'none';
+                }
+
+            });
+
+            const empty = document.getElementById('emptyMessage');
+
+            if (visible === 0) {
+                empty.classList.remove('hidden');
+                empty.innerText = 'Tidak ada paket try out yang ditemukan.';
+            } else {
+                empty.classList.add('hidden');
+            }
+
+        });
+    </script>
 </body>
 </html>

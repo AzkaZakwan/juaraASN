@@ -13,10 +13,20 @@ use Maatwebsite\Excel\Facades\Excel;
 class QuestionBankController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $questions = QuestionBank::latest()->get();
-        return view('admin.questions.index', compact('questions'));
+        $activeTab = strtoupper($request->input('type', 'TWK'));
+
+        if (!in_array($activeTab, ['TWK', 'TIU', 'TKP'])) {
+            $activeTab = 'TWK';
+        }
+
+        $questions = QuestionBank::where('question_type', $activeTab)
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admin.questions.index', compact('questions', 'activeTab'));
     }
 
     public function create()
@@ -110,18 +120,18 @@ class QuestionBankController extends Controller
 
     public function edit(QuestionBank $question)
     {
-        $question->load('options');
-        if ($question->answers()->exists()) {
-            return redirect()
-                ->route('questions.index')
-                ->with('error', 'Soal ini sudah pernah dikerjakan user sehingga tidak dapat diedit');
-        }
-
-        return view('admin.questions.edit', compact('question'));
+            $isLocked = $question->answers()->exists();
+            $question->load('options');
+            return view('admin.questions.edit', compact('question', 'isLocked'));
     }
 
     public function update(Request $request, QuestionBank $question)
     {
+        if ($question->answers()->exists()) {
+            return redirect()
+                ->route('questions.index')
+                ->with('error', 'Soal ini sudah pernah dikerjakan user sehingga tidak dapat diubah.');
+        }
         $request->validate([
             'question_text' => 'required',
             'question_type' => 'required|in:TWK,TIU,TKP',

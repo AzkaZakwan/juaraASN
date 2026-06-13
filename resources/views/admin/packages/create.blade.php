@@ -6,7 +6,7 @@
     <title>Tambah Try Out</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -37,8 +37,13 @@
         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8">
             Tambah Try Out
         </h1>
-        
 
+        @if($errors->any())
+            <div class="mb-4 bg-red-100 text-red-700 px-4 py-3 rounded-xl">
+                {{ $errors->first() }}
+            </div>
+        @endif
+    
         <div class="bg-white rounded-3xl shadow-xl p-5 sm:p-8 lg:p-10 w-full max-w-5xl">
 
             <form action="{{ route('packages.store') }}" method="POST" enctype="multipart/form-data"
@@ -123,7 +128,7 @@
                 </div>
 
                 <!-- Checkbox pengaturan -->                
-                <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-3 lg:gap-6">
+                {{-- <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-3 lg:gap-6">
                     <label class="font-semibold text-base sm:text-lg">
                         Pengaturan
                     </label>
@@ -134,7 +139,7 @@
                             <span>Aktifkan Try Out</span>
                         </label>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-3 lg:gap-6">
                     <label class="font-semibold text-base sm:text-lg">
@@ -171,7 +176,7 @@
                     </a>
 
                     <button type="submit"
-                        class="w-full sm:w-auto bg-[#FF6B1A] hover:bg-[#eb5f12] text-white px-6 sm:px-8 py-3 rounded-xl shadow-md hover:shadow-lg transition">
+                        class="w-full sm:w-auto bg-[#FFA35C] hover:bg-[#eb5f12] text-white px-6 sm:px-8 py-3 rounded-xl shadow-md hover:shadow-lg transition">
                         Simpan Try Out
                     </button>
 

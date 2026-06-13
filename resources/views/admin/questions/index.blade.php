@@ -6,7 +6,7 @@
     <title>Manajemen Bank Soal</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -78,20 +78,20 @@
 
             <!-- TAB -->
             <div class="grid grid-cols-3">
-                <button type="button" onclick="showTab('TWK')" data-tab="TWK"
-                    class="tab-btn bg-[#FF6B1A] text-white font-bold py-3 text-lg hover:bg-[#FFA35C] transition">
+                <a href="{{ route('questions.index', ['type' => 'TWK']) }}"
+                    class="tab-btn {{ $activeTab === 'TWK' ? 'bg-[#FFA35C] text-white' : 'bg-gray-200 text-gray-700' }} font-bold py-3 text-lg text-center hover:bg-[#FFA35C] transition">
                     TWK
-                </button>
+                </a>
 
-                <button type="button" onclick="showTab('TIU')" data-tab="TIU"
-                    class="tab-btn bg-gray-200 text-gray-700 font-bold py-3 text-lg hover:bg-[#FFA35C] transition">
+                <a href="{{ route('questions.index', ['type' => 'TIU']) }}"
+                    class="tab-btn {{ $activeTab === 'TIU' ? 'bg-[#FFA35C] text-white' : 'bg-gray-200 text-gray-700' }} font-bold py-3 text-lg text-center hover:bg-[#FFA35C] transition">
                     TIU
-                </button>
+                </a>
 
-                <button type="button" onclick="showTab('TKP')" data-tab="TKP"
-                    class="tab-btn bg-gray-200 text-gray-700 font-bold py-3 text-lg hover:bg-[#FFA35C] transition">
+                <a href="{{ route('questions.index', ['type' => 'TKP']) }}"
+                    class="tab-btn {{ $activeTab === 'TKP' ? 'bg-[#FFA35C] text-white' : 'bg-gray-200 text-gray-700' }} font-bold py-3 text-lg text-center hover:bg-[#FFA35C] transition">
                     TKP
-                </button>
+                </a>
             </div>
 
             <!-- CONTENT -->
@@ -111,7 +111,7 @@
 
                                 <div class="flex-1">
                                     <h2 class="font-bold text-lg mb-2">
-                                        Soal {{ $category }} #{{ $loop->iteration }}
+                                        Soal {{ $category }} #{{ $questions->firstItem() + $loop->index }}
                                     </h2>
 
                                     <div class="flex flex-wrap gap-2 mb-3">
@@ -143,7 +143,7 @@
                                         Edit
                                     </a>
 
-                                    <form action="{{ route('questions.destroy', $question->id) }}"
+                                    {{-- <form action="{{ route('questions.destroy', $question->id) }}"
                                         method="POST"
                                         onsubmit="return confirm('Hapus soal ini?')">
 
@@ -154,7 +154,7 @@
                                             class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm transition">
                                             Hapus
                                         </button>
-                                    </form>
+                                    </form> --}}
 
                                 </div>
 
@@ -169,6 +169,37 @@
                         <div id="emptyMessage" class="hidden text-center text-gray-500 py-10">
                         </div>
                 </div>
+                @if ($questions->hasPages())
+                    <div id="paginationWrapper" class="flex justify-center items-center gap-3 mt-8">
+
+                        @if ($questions->onFirstPage())
+                            <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg">
+                                Previous
+                            </span>
+                        @else
+                            <a href="{{ $questions->previousPageUrl() }}"
+                                class="px-4 py-2 bg-white border text-gray-700 rounded-lg hover:bg-gray-100">
+                                Previous
+                            </a>
+                        @endif
+
+                        <span class="text-sm text-gray-500">
+                            Page {{ $questions->currentPage() }} of {{ $questions->lastPage() }}
+                        </span>
+
+                        @if ($questions->hasMorePages())
+                            <a href="{{ $questions->nextPageUrl() }}"
+                                class="px-4 py-2 bg-white border text-gray-700 rounded-lg hover:bg-gray-100">
+                                Next
+                            </a>
+                        @else
+                            <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg">
+                                Next
+                            </span>
+                        @endif
+
+                    </div>
+                @endif
 
             </div>
         </div>
@@ -177,59 +208,68 @@
     <script>
         let activeTab = 'ALL';
 
-        function showTab(category) {
-            activeTab = category;
+        // function showTab(category) {
+        //     activeTab = category;
 
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                if (btn.dataset.tab === category) {
-                    btn.classList.remove('bg-gray-200', 'text-gray-700');
-                    btn.classList.add('bg-[#FFA35C]', 'text-white');
-                } 
-                else {
-                    btn.classList.remove('bg-[#FFA35C]', 'text-white');
-                    btn.classList.add('bg-gray-200', 'text-[-700');
-                }
-            });
+        //     document.querySelectorAll('.tab-btn').forEach(btn => {
+        //         if (btn.dataset.tab === category) {
+        //             btn.classList.remove('bg-gray-200', 'text-gray-700');
+        //             btn.classList.add('bg-[#FFA35C]', 'text-white');
+        //         } 
+        //         else {
+        //             btn.classList.remove('bg-[#FFA35C]', 'text-white');
+        //             btn.classList.add('bg-gray-200', 'text-gray-700');
+        //         }
+        //     });
 
-            filterQuestions();
-        }
+        //     filterQuestions();
+        // }
 
-        function filterQuestions() {
-            const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
-            let visibleCount = 0;
+        // function filterQuestions() {
+        //     const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+        //     let visibleCount = 0;
+        //     const paginationWrapper = document.getElementById('paginationWrapper');
 
-            document.querySelectorAll('.question-card').forEach(card => {
-                const category = card.dataset.category;
-                const text = card.innerText.toLowerCase();
+        //     if (paginationWrapper) {
+        //         if (keyword !== '') {
+        //             paginationWrapper.classList.add('hidden');
+        //         } else {
+        //             paginationWrapper.classList.remove('hidden');
+        //         }
+        //     }
 
-                const matchCategory = activeTab === 'ALL' || category === activeTab;
-                const matchSearch = text.includes(keyword);
+        //     document.querySelectorAll('.question-card').forEach(card => {
+        //         const category = card.dataset.category;
+        //         const text = card.innerText.toLowerCase();
 
-                if (matchCategory && matchSearch) {
-                    card.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+        //         const matchCategory = activeTab === 'ALL' || category === activeTab;
+        //         const matchSearch = text.includes(keyword);
 
-            const emptyMessage = document.getElementById('emptyMessage');
+        //         if (matchCategory && matchSearch) {
+        //             card.style.display = 'block';
+        //             visibleCount++;
+        //         } else {
+        //             card.style.display = 'none';
+        //         }
+        //     });
 
-            if (visibleCount === 0) {
-                emptyMessage.classList.remove('hidden');
+        //     const emptyMessage = document.getElementById('emptyMessage');
 
-                if (keyword !== '') {
-                    emptyMessage.innerText = 'Tidak ada soal yang cocok dengan pencarian.';
-                } else {
-                    emptyMessage.innerText = 'Belum ada soal pada kategori ini.';
-                }
-            } else {
-                emptyMessage.classList.add('hidden');
-                emptyMessage.innerText = '';
-            }
-        }
+        //     if (visibleCount === 0) {
+        //         emptyMessage.classList.remove('hidden');
+
+        //         if (keyword !== '') {
+        //             emptyMessage.innerText = 'Tidak ada soal yang cocok dengan pencarian.';
+        //         } else {
+        //             emptyMessage.innerText = 'Belum ada soal pada kategori ini.';
+        //         }
+        //     } else {
+        //         emptyMessage.classList.add('hidden');
+        //         emptyMessage.innerText = '';
+        //     }
+        // }
         document.getElementById('searchInput').addEventListener('input', filterQuestions);
-        showTab('TWK');
+        // showTab('TWK');
     </script>
 
 </body>

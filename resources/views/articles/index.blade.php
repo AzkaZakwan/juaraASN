@@ -7,7 +7,7 @@
     <title>Artikel</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 </head>
@@ -86,10 +86,10 @@
                     {{-- Gambar --}}
                     <div class="h-52 bg-gray-100">
 
-                        @if($article->image)
-                            <img src="{{ asset('storage/' . $article->image) }}"
+                        <div class="aspect-video rounded-2xl overflow-hidden bg-gray-100">
+                            <img src="{{ asset('storage/'.$article->image) }}"
                                 class="w-full h-full object-cover">
-                        @endif
+                        </div>
 
                     </div>
 

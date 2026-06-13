@@ -133,6 +133,15 @@ class TryoutController extends Controller
         $questions = $attempt->package
             ->questions()
             ->with('options')
+            ->orderByRaw("
+                CASE
+                    WHEN question_type = 'TWK' THEN 1
+                    WHEN question_type = 'TIU' THEN 2
+                    WHEN question_type = 'TKP' THEN 3
+                    ELSE 4
+                END
+            ")
+            ->orderBy('question_banks.id')
             ->get();
 
         $answers = $attempt->answers()
@@ -268,9 +277,16 @@ class TryoutController extends Controller
         }
 
         $questions = $attempt->package
-            ->questions()
-            ->with('options')
-            ->get();
+            ->questions()->with('options')
+            ->orderByRaw("
+                CASE
+                    WHEN question_type = 'TWK' THEN 1
+                    WHEN question_type = 'TIU' THEN 2
+                    WHEN question_type = 'TKP' THEN 3
+                    ELSE 4
+                END
+            ")
+            ->orderBy('question_banks.id')->get();
 
         $answers = $attempt->answers()
             ->get()

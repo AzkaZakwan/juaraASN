@@ -6,7 +6,7 @@
     <title>Tambah Soal</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -153,9 +153,15 @@
                 <textarea name="explanation" rows="5" class="w-full border rounded-lg p-3 mt-2">{{ old('explanation') }}</textarea>
             </div>
 
-            <button class="bg-[#FF7A47] text-white px-6 py-3 rounded-lg">
-                Simpan Soal
-            </button>
+            <div class="flex gap-3">
+                <a href="{{ route('questions.index') }}"
+                    class="bg-red-500 text-white px-6 py-3 rounded-lg">
+                    Kembali
+                </a>
+                <button class="bg-[#FF7A47] text-white px-6 py-3 rounded-lg">
+                    Simpan Soal
+                </button> 
+            </div>
 
         </form>
 

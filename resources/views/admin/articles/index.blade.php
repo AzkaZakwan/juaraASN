@@ -7,7 +7,7 @@
     <title>Artikel Admin</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -52,7 +52,7 @@
             {{-- SEARCH INPUT --}}
             <div class="relative flex-1">
 
-                <input type="text" placeholder="Placeholder text..."
+                <input type="text" id="searchInput" placeholder="Cari artikel..."
                     class="w-full bg-white rounded-xl border border-gray-200 pl-11 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-300">
 
                 {{-- ICON --}}
@@ -67,7 +67,7 @@
             </div>
 
             {{-- FILTER --}}
-            <button
+            {{-- <button
                 class="bg-[#7FA7FF] text-gray-800 px-5 py-3 rounded-xl flex items-center justify-center gap-2 hover:scale-105 transition">
 
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
@@ -79,14 +79,15 @@
 
                 Filter
 
-            </button>
+            </button> --}}
 
         </div>
 
         {{-- CARD GRID --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div id="articleGrid"
+            class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 max-h-[620px] overflow-y-auto pr-2">
             @forelse ($articles as $article)
-                <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                <div class="article-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
 
                     <div class="bg-[#FFA35C] py-4 px-4 text-center">
                         <h2 class="text-white font-bold text-lg sm:text-xl uppercase">
@@ -94,8 +95,8 @@
                         </h2>
                     </div>
 
-                    <div class="h-44 sm:h-52 bg-[#F3F3F3]">
-                        @if($article->image)
+                    <div class="aspect-video bg-[#F3F3F3] overflow-hidden">
+                         @if($article->image)
                             <img src="{{ asset('storage/' . $article->image) }}"
                                 class="w-full h-full object-cover">
                         @else
@@ -138,12 +139,47 @@
                     Belum ada artikel.
                 </div>
             @endforelse                      
-            <div class="mt-8">
-                {{ $articles->links() }}
-            </div>
+        </div>
+        <div id="emptyMessage" class="hidden bg-white rounded-3xl p-8 text-center text-gray-500 mt-6">
+            Tidak ada artikel yang ditemukan.
+        </div>
+        <div id="paginationWrapper" class="mt-8">
+            {{ $articles->links() }}
         </div>
     </main>
-
 </body>
+<script>
+    const searchInput = document.getElementById('searchInput');
 
+    searchInput.addEventListener('input', function () {
+        const keyword = this.value.toLowerCase().trim();
+        let visible = 0;
+
+        document.querySelectorAll('.article-card').forEach(card => {
+            const text = card.innerText.toLowerCase();
+
+            if (text.includes(keyword)) {
+                card.style.display = 'block';
+                visible++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        const emptyMessage = document.getElementById('emptyMessage');
+        const paginationWrapper = document.getElementById('paginationWrapper');
+
+        if (paginationWrapper) {
+            keyword !== ''
+                ? paginationWrapper.classList.add('hidden')
+                : paginationWrapper.classList.remove('hidden');
+        }
+
+        if (visible === 0) {
+            emptyMessage.classList.remove('hidden');
+        } else {
+            emptyMessage.classList.add('hidden');
+        }
+    });
+</script>
 </html>

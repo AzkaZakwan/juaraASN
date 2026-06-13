@@ -104,6 +104,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         return view('admin.magtryout');
     })->name('admintryout');
 
+    Route::patch('packages/{package}/toggle-active', [PackageController::class, 'toggleActive'])
+    ->name('packages.toggleActive');
+
     Route::resource('articles', AdminArticleController::class)
     ->names('admin.articles');
     

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     @vite(['resources/css/app.css', 'resources/js/auth.js'])
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
@@ -22,8 +22,10 @@
         <div
             class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3 sm:py-4">
 
-            <div>
-                <img src="{{ asset('images/juaraASN.png') }}" alt="logo" class="h-10 sm:h-12">
+            <div class="h-12 flex items-center overflow-visible">
+                <img src="{{ asset('images/juaraASN.png') }}"
+                    alt="logo"
+                    class="h-12 w-auto scale-125 origin-left transition-all duration-300">
             </div>
 
         </div>

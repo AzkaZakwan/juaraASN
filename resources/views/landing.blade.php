@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
+    <title>juaraASN</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -89,7 +90,7 @@
             </h1>
 
             <p class="text-gray-600 mb-6 text-lg">
-                Latihan soal, try out dan bimbingan online untuk persiapan seleksi.
+                Latihan soal, try out dan bimbingan online untuk persiapan seleksi CPNS.
                 Ketahui kemampuanmu dan tingkatkan skor secara bertahap.
             </p>
 
@@ -136,7 +137,7 @@
 
             <p class="text-gray-600 mb-4 text-lg text-justify">
                 Kami adalah platform try out ASN yang hadir untuk membantu para pejuang
-                aparatur sipil negara mempersiapkan diri secara lebih efektif, terarah,
+                calon aparatur sipil negara mempersiapkan diri secara lebih efektif, terarah,
                 dan percaya diri.
             </p>
 
@@ -157,43 +158,50 @@
     <section class="relative py-20 px-6 bg-[#FFF9F5]">
         <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center">
 
-            <!-- CARD 1 -->
-            <div class="bg-[#FFA35C] text-white p-10 rounded-2xl shadow-lg hover:scale-105 transition">
+            <!-- CARD 1: TRY OUT -->
+            <a href="{{ route('tryout') }}"
+                class="block bg-[#FFA35C] text-white p-10 rounded-2xl shadow-lg hover:scale-105 hover:shadow-xl transition">
+
                 <div class="flex justify-center text-5xl mb-4">
-                    <img src="{{ asset('images/BookPencil.png') }}" alt="Bookpencil">
+                    <img src="{{ asset('images/BookPencil.png') }}" alt="Try Out">
                 </div>
+
                 <h3 class="text-2xl font-semibold mb-2">Try Out</h3>
-                <p class="text-sm opacity-80">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero,
-                    animi
-                    consectetur. Eius, provident! Reiciendis facilis assumenda dicta corrupti magnam sit aut
-                    eos.
-                    Commodi reiciendis voluptatem deleniti, beatae aliquid temporibus. Provident?</p>
-            </div>
 
-            <!-- CARD 2 -->
-            <div class="bg-[#6FD8CA] text-white p-10 rounded-2xl shadow-lg hover:scale-105 transition">
-                <div class="flex justify-center text-5xl mb-4">
-                    <img src="{{ asset('images/Reading.png') }}" alt="Reading">
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Materi</h3>
-                <p class="text-sm opacity-80">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
-                    dolorem
-                    sint nisi, doloribus accusantium officia repudiandae repellendus est qui deserunt laudantium
-                    illum
-                    amet non officiis omnis, minima voluptates voluptas quasi?</p>
-            </div>
+                <p class="text-sm opacity-80">
+                    Latihan soal CPNS dengan sistem try out untuk mengukur kemampuan dan kesiapanmu.
+                </p>
+            </a>
 
-            <!-- CARD 3 -->
-            <div class="bg-[#FFA35C] text-white p-10 rounded-2xl shadow-lg hover:scale-105 transition">
+            <!-- CARD 2: MATERI -->
+            <a href="{{ route('materi') }}"
+                class="block bg-[#6FD8CA] text-white p-10 rounded-2xl shadow-lg hover:scale-105 hover:shadow-xl transition">
+
                 <div class="flex justify-center text-5xl mb-4">
-                    <img src="{{ asset('images/Rules.png') }}" alt="Rules">
+                    <img src="{{ asset('images/Reading.png') }}" alt="Materi">
                 </div>
-                <h3 class="text-xl font-semibold mb-2">Review</h3>
-                <p class="text-sm opacity-80">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quam sed
-                    modi
-                    veritatis esse maiores doloribus similique. Vero, possimus ullam dolor omnis quae, repellat
-                    corporis, fuga asperiores eius numquam sunt rem.</p>
-            </div>
+
+                <h3 class="text-2xl font-semibold mb-2">Materi</h3>
+
+                <p class="text-sm opacity-80">
+                    Pelajari materi TWK, TIU, dan TKP sebagai bekal menghadapi seleksi ASN.
+                </p>
+            </a>
+
+            <!-- CARD 3: REVIEW -->
+            <a href="{{ route('riwayat') }}"
+                class="block bg-[#FFA35C] text-white p-10 rounded-2xl shadow-lg hover:scale-105 hover:shadow-xl transition">
+
+                <div class="flex justify-center text-5xl mb-4">
+                    <img src="{{ asset('images/Rules.png') }}" alt="Review">
+                </div>
+
+                <h3 class="text-2xl font-semibold mb-2">Review</h3>
+
+                <p class="text-sm opacity-80">
+                    Lihat hasil pengerjaan, nilai, dan evaluasi dari try out yang sudah kamu kerjakan.
+                </p>
+            </a>
 
         </div>
     </section>
@@ -203,7 +211,7 @@
 
         <div class="max-w-6xl mx-auto text-center mb-10">
             <h2 class="text-5xl font-bold mb-2 text-white">Apa Kata Mereka?</h2>
-            <p class="text-white">Banyak yang sudah berhasil, ini kata mereka</p>
+            <p class="text-white">Cerita dan pengalaman dari para pejuang ASN bersama JuaraASN.</p>
         </div>
 
         <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -211,50 +219,45 @@
             <!-- TESTI CARD -->
             <div class="border border-orange-300 rounded-xl p-5 bg-white shadow-sm">
                 <p class="text-sm text-gray-600 mb-4">
-                    Corem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam eu turpis molestie, dictum est a, mattis tellus.
+                    Soal-soalnya sangat mirip dengan ujian sebenarnya. Pembahasannya mudah dipahami dan membantu saya meningkatkan skor setiap hari.
                 </p>
 
                 <div class="flex items-center gap-3">
                     <img src="https://i.pravatar.cc/40" class="w-10 h-10 rounded-full">
                     <div>
-                        <p class="font-semibold text-sm">Nama User</p>
-                        <p class="text-xs text-gray-400">Lulus CPNS 2025</p>
+                        <p class="font-semibold text-sm">Andi Saputra</p>
+                        <p class="text-xs text-gray-400">Pejuang CPNS 2026</p>
                     </div>
                 </div>
             </div>
 
-            <!-- DUPLICATE -->
             <div class="border border-orange-300 rounded-xl p-5 bg-white shadow-sm">
                 <p class="text-sm text-gray-600 mb-4">
-                    Corem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam eu turpis molestie, dictum est a, mattis tellus.
+                    Try out yang disediakan sangat membantu mengetahui kelemahan saya. Setelah rutin belajar, nilai terus meningkat hingga lolos seleksi.
                 </p>
 
                 <div class="flex items-center gap-3">
                     <img src="https://i.pravatar.cc/41" class="w-10 h-10 rounded-full">
                     <div>
-                        <p class="font-semibold text-sm">Nama User</p>
-                        <p class="text-xs text-gray-400">Lulus PPPK</p>
+                        <p class="font-semibold text-sm">Siti Rahma</p>
+                        <p class="text-xs text-gray-400">Pejuang CPNS 2026</p>
                     </div>
                 </div>
             </div>
 
             <div class="border border-orange-300 rounded-xl p-5 bg-white shadow-sm">
                 <p class="text-sm text-gray-600 mb-4">
-                    Corem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam eu turpis molestie, dictum est a, mattis tellus.
+                    Fitur review membuat saya bisa mengevaluasi jawaban dengan cepat. Persiapan menjadi lebih terarah dan efektif.
                 </p>
 
                 <div class="flex items-center gap-3">
                     <img src="https://i.pravatar.cc/42" class="w-10 h-10 rounded-full">
                     <div>
-                        <p class="font-semibold text-sm">Nama User</p>
-                        <p class="text-xs text-gray-400">Top Score Nasional</p>
+                        <p class="font-semibold text-sm">Dimas Pratama</p>
+                        <p class="text-xs text-gray-400">Pejuang CPNS 2026</p>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- ROW 2 -->
@@ -262,42 +265,42 @@
 
             <div class="border border-orange-300 rounded-xl p-5 bg-white shadow-sm">
                 <p class="text-sm text-gray-600 mb-4">
-                    Corem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Materinya lengkap, tampilannya nyaman digunakan, dan saya bisa belajar kapan saja tanpa harus mengikuti kelas tatap muka.
                 </p>
 
                 <div class="flex items-center gap-3">
                     <img src="https://i.pravatar.cc/43" class="w-10 h-10 rounded-full">
                     <div>
-                        <p class="font-semibold text-sm">Nama User</p>
-                        <p class="text-xs text-gray-400">Lulus CPNS</p>
+                        <p class="font-semibold text-sm">Rizky Maulana</p>
+                        <p class="text-xs text-gray-400">Pejuang CPNS 2026</p>
                     </div>
                 </div>
             </div>
 
             <div class="border border-orange-300 rounded-xl p-5 bg-white shadow-sm">
                 <p class="text-sm text-gray-600 mb-4">
-                    Corem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Dashboard hasil try out memudahkan saya memantau perkembangan nilai dan menentukan materi yang harus dipelajari lagi.
                 </p>
 
                 <div class="flex items-center gap-3">
                     <img src="https://i.pravatar.cc/44" class="w-10 h-10 rounded-full">
                     <div>
-                        <p class="font-semibold text-sm">Nama User</p>
-                        <p class="text-xs text-gray-400">Peserta Terbaik</p>
+                        <p class="font-semibold text-sm">Nadia Putri</p>
+                        <p class="text-xs text-gray-400">Fresh Graduate 2026</p>
                     </div>
                 </div>
             </div>
 
             <div class="border border-orange-300 rounded-xl p-5 bg-white shadow-sm">
                 <p class="text-sm text-gray-600 mb-4">
-                    Corem ipsum dolor sit amet, consectetur adipiscing elit.
+                    JuaraASN memberikan pengalaman belajar yang menyenangkan dengan soal berkualitas dan evaluasi yang sangat membantu.
                 </p>
 
                 <div class="flex items-center gap-3">
                     <img src="https://i.pravatar.cc/45" class="w-10 h-10 rounded-full">
                     <div>
-                        <p class="font-semibold text-sm">Nama User</p>
-                        <p class="text-xs text-gray-400">Lulus Seleksi</p>
+                        <p class="font-semibold text-sm">Fajar Hidayat</p>
+                        <p class="text-xs text-gray-400">Pejuang CPNS 2026</p>
                     </div>
                 </div>
             </div>
@@ -305,6 +308,8 @@
         </div>
 
     </section>
+
+
 
 
     <!-- Artikel -->

@@ -6,7 +6,7 @@
     <title>Edit Try Out</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-[#F3F3F3]" style="font-family: 'Poppins', sans-serif;">
@@ -70,7 +70,7 @@
                     class="w-full bg-white-100 rounded-xl px-5 py-4 mt-2 outline-none">
 
                 <p class="text-sm text-gray-500 mt-2">
-                    Kosongkan atau isi 0 untuk paket gratis.
+                    Kosongkan atau isi 0 untuk paket gratis
                 </p>
             </div>
 
@@ -101,7 +101,7 @@
                 Aktif
             </label> --}}
 
-            <div>
+            {{-- <div>
                 <label class="flex items-center gap-3">
 
                     <input type="checkbox"
@@ -112,7 +112,12 @@
                     Aktifkan Try Out
 
                 </label>
-            </div>
+            </div> --}}
+            @error('is_active')
+                <div class="mt-2 text-sm text-red-600">
+                    {{ $message }}
+                </div>
+            @enderror
 
             {{-- <label class="flex items-center gap-2">
                 <input type="checkbox" name="show_explanation"
@@ -121,16 +126,26 @@
             </label> --}}
 
             {{-- Tombol --}}
+            @if($isLocked)
+                <div class="mb-5 bg-yellow-100 text-yellow-800 px-4 py-3 rounded-xl">
+                    Paket ini sudah pernah dikerjakan user, data tidak dapat diubah
+                </div>
+            @endif
             <div class="flex gap-3">
             <a href="{{ route('packages.index') }}"
                 class="bg-red-500 text-white px-6 py-3 rounded-xl">
                 Kembali
             </a>
-
-            <button type="submit"
-                class="bg-[#FF6B1A] text-white px-6 py-3 rounded-xl">
-                Update Try Out
-            </button>
+            @if(!$isLocked)
+                <button type="submit" class="w-full sm:w-auto bg-[#FFA35C] hover:bg-[#eb5f12] text-white px-6 sm:px-8 py-3 rounded-xl shadow-md hover:shadow-lg transition">
+                    Simpan Perubahan
+                </button>
+            @else
+                <button type="button" disabled
+                    class="w-full sm:w-auto bg-[#FFA35C] hover:bg-[#eb5f12] text-white px-6 sm:px-8 py-3 rounded-xl shadow-md hover:shadow-lg transition">
+                    Simpan Perubahan
+                </button>
+            @endif
 
         </div>
 

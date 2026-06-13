@@ -35,18 +35,9 @@ class PackageController extends Controller
             'excel_file' => 'nullable|file|mimes:xlsx,xls,csv',
         ]);
 
-        // if ($request->hasFile('image')) {
-        //     $file = $request->file('image');
-        //     $filename = time().'.'.$file->getClientOriginalExtension();
-        //     // $file->storeAs('public/packages', $filename);
-        //     $file->storeAs('packages', $filename, 'public');
-
-        //     $data['image'] = 'packages/'.$filename;
-        // }
-
         $price = $request->price ?? 0;
         $data['price'] = $price;
-        $data['is_active'] = $request->has('is_active');
+        $data['is_active'] = false;
         // $data['is_premium'] = $price > 0;
         $data['show_explanation'] = $price > 0;
 
@@ -58,8 +49,38 @@ class PackageController extends Controller
             Excel::import($import, $request->file('excel_file'));
 
             if (!empty($import->questionIds)) {
-                $package->questions()->sync($import->questionIds);
+                $package->questions()->syncWithoutDetaching($import->questionIds);
             }
+        }
+        if ($request->has('is_active')) {
+            $twk = $package->questions()
+                ->where('question_type', 'TWK')
+                ->count();
+
+            $tiu = $package->questions()
+                ->where('question_type', 'TIU')
+                ->count();
+
+            $tkp = $package->questions()
+                ->where('question_type', 'TKP')
+                ->count();
+
+            if ($twk !== 30 || $tiu !== 35 || $tkp !== 45) {
+
+                $package->update([
+                    'is_active' => false,
+                ]);
+
+                return back()
+                    ->withInput()
+                    ->withErrors([
+                        'is_active' => "Paket tidak dapat diaktifkan karena komposisi soal belum sesuai TWK {$twk}/30, TIU {$tiu}/35, TKP {$tkp}/45"
+                    ]);
+            }
+
+            $package->update([
+                'is_active' => true,
+            ]);
         }
 
         return redirect()->route('packages.index');
@@ -72,11 +93,19 @@ class PackageController extends Controller
 
     public function edit(Package $package)
     {
-        return view('admin.packages.edit', compact('package'));
+        $isLocked = $package->attempts()->whereNotNull('finished_at')->exists();
+
+        return view('admin.packages.edit', compact('package', 'isLocked'));
     }
 
     public function update(Request $request, Package $package)
     {
+        if ($package->attempts()->whereNotNull('finished_at')->exists()) {
+            return redirect()
+                ->route('packages.index')
+                ->with('error', 'Paket ini sudah pernah dikerjakan user sehingga tidak dapat diubah.');
+        }
+
         $data = $request->validate([
             'name' => 'required',
             'description' => 'nullable',
@@ -84,24 +113,17 @@ class PackageController extends Controller
             'duration_minutes' => 'required|integer|min:1',
         ]);
 
-        // if ($request->hasFile('image')) {
-        //     $file = $request->file('image');
-        //     $filename = time().'.'.$file->getClientOriginalExtension();
-        //     // $file->storeAs('public/packages', $filename);
-        //     $file->storeAs('packages', $filename, 'public');
-
-        //     $data['image'] = 'packages/'.$filename;
-        // }
-
         $price = $request->price ?? 0;
+
         $data['price'] = $price;
         $data['is_active'] = $request->has('is_active');
-        // $data['is_premium'] = $price > 0;
         $data['show_explanation'] = $price > 0;
 
         $package->update($data);
 
-        return redirect()->route('packages.index');
+        return redirect()
+            ->route('packages.index')
+            ->with('success', 'Paket berhasil diperbarui.');
     }
 
     public function destroy(Package $package)
@@ -112,23 +134,19 @@ class PackageController extends Controller
     
     public function questions(Package $package)
     {
+        $isLocked = $package->attempts()->whereNotNull('finished_at')->exists();
+
         $questions = QuestionBank::with('options')->get();
 
         $selectedQuestions = $package->questions
             ->pluck('id')
             ->toArray();
 
-        if ($package->attempts()->whereNotNull('finished_at')->exists()) {
-                return redirect()
-                    ->route('packages.index')
-                    ->with('error', 'Paket ini sudah pernah dikerjakan user sehingga susunan soal tidak dapat diubah.');
-            }
-
-
         return view('admin.packages.questions', compact(
             'package',
             'questions',
-            'selectedQuestions'
+            'selectedQuestions',
+            'isLocked'
         ));
     }
     
@@ -147,21 +165,16 @@ class PackageController extends Controller
         $tiu = $questions->where('question_type', 'TIU')->count();
         $tkp = $questions->where('question_type', 'TKP')->count();
 
-        // TESTING
-        $targetTwk = 1;
-        $targetTiu = 1;
-        $targetTkp = 1;
-
-        // FINAL SKD
-        // $targetTwk = 30;
-        // $targetTiu = 35;
-        // $targetTkp = 45;
+        // jumlah soal
+        $targetTwk = 30;
+        $targetTiu = 35;
+        $targetTkp = 45;
 
         if ($twk !== $targetTwk || $tiu !== $targetTiu || $tkp !== $targetTkp) {
             return back()
                 ->withInput()
                 ->withErrors([
-                    'questions' => "Komposisi soal belum sesuai. TWK: {$twk}/{$targetTwk}, TIU: {$tiu}/{$targetTiu}, TKP: {$tkp}/{$targetTkp}."
+                    'questions' => "Komposisi soal belum sesuai TWK {$twk}/{$targetTwk}, TIU {$tiu}/{$targetTiu}, TKP {$tkp}/{$targetTkp}"
                 ]);
         }
 
@@ -203,6 +216,39 @@ class PackageController extends Controller
     {
         return response()->download(
             public_path('templates/template.xlsx')
+        );
+    }
+
+    public function toggleActive(Package $package)
+    {
+        if ($package->attempts()->whereNotNull('finished_at')->exists()) {
+            return back()->with('error', 'Paket ini sudah pernah dikerjakan user sehingga status aktif tidak dapat diubah.');
+        }
+
+        if (!$package->is_active) {
+            $questions = $package->questions()->get();
+
+            $twk = $questions->where('question_type', 'TWK')->count();
+            $tiu = $questions->where('question_type', 'TIU')->count();
+            $tkp = $questions->where('question_type', 'TKP')->count();
+
+            if ($twk !== 30 || $tiu !== 35 || $tkp !== 45) {
+                return back()->with(
+                    'error',
+                    "Paket tidak dapat diaktifkan karena komposisi soal belum sesuai TWK {$twk}/30, TIU {$tiu}/35, TKP {$tkp}/45, cek soal"
+                );
+            }
+        }
+
+        $package->update([
+            'is_active' => !$package->is_active,
+        ]);
+
+        return back()->with(
+            'success',
+            $package->is_active
+                ? 'Paket berhasil diaktifkan.'
+                : 'Paket berhasil dinonaktifkan.'
         );
     }
 }

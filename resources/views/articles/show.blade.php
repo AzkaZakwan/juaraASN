@@ -7,7 +7,7 @@
     <title>{{ $article->title }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 </head>
@@ -32,8 +32,8 @@
 
             {{-- IMAGE --}}
             @if($article->image)
-                <div class="h-[300px] md:h-[450px]">
-                    <img src="{{ asset('storage/' . $article->image) }}"
+                <div class="aspect-[16/7] rounded-3xl overflow-hidden mb-8">
+                    <img src="{{ asset('storage/'.$article->image) }}"
                         class="w-full h-full object-cover">
                 </div>
             @endif

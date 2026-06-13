@@ -6,7 +6,7 @@
     <title>Edit Soal</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -59,13 +59,13 @@
                 <label class="font-semibold">Soal</label>
 
                 <textarea name="question_text"
-                    rows="5"
+                    rows="5" {{ $isLocked ? 'readonly' : '' }}
                     class="w-full border rounded-lg p-3 mt-2"
                     required>{{ old('question_text', $question->question_text) }}</textarea>
 
                 <!-- Gambar Soal -->
                 <div>
-                    <label class="font-semibold">Gambar Soal <span class="text-gray-400 text-sm">(opsional)</span></label>
+                    <label class="font-semibold" >Gambar Soal <span class="text-gray-400 text-sm">(opsional)</span></label>
 
                     @if($question->question_image)
                         <div class="mt-3">
@@ -75,9 +75,9 @@
                     @endif
 
                     <input type="file"
-                        name="question_image"
-                        accept="image/*"
-                        class="w-full border rounded-lg p-3 mt-2">
+                        name="question_image" accept="image/*" 
+                        class="w-full border rounded-lg p-3 mt-2" {{ $isLocked ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                        {{ $isLocked ? 'disabled' : '' }}>
                 </div>
                 
             </div>
@@ -86,9 +86,9 @@
             <div>
                 <label class="font-semibold">Tipe Soal</label>
 
-                <select name="question_type"
-                        id="questionType"
-                        class="w-full border rounded-lg p-3 mt-2">
+                <select name="question_type" id="questionType"
+                    class="w-full border rounded-lg p-3 mt-2 {{ $isLocked ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                    {{ $isLocked ? 'disabled' : '' }}>
 
                     <option value="TWK" {{ old('question_type', $question->question_type) == 'TWK' ? 'selected' : '' }}>
                         TWK
@@ -110,7 +110,8 @@
                 <label class="font-semibold">Sub Kategori</label>
 
                 <select name="sub_category" id="subCategory"
-                    class="w-full border rounded-lg p-3 mt-2" required>
+                    class="w-full border rounded-lg p-3 mt-2 required{{ $isLocked ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                    {{ $isLocked ? 'disabled' : '' }}>
                 </select>
             </div>
 
@@ -125,10 +126,12 @@
                             Opsi {{ $option->option_label }}
                         </label>
 
-                        <input type="text"
+                        <input
+                            type="text"
                             name="options[]"
                             value="{{ old('options.' . $key, $option->option_text) }}"
-                            class="w-full border rounded-lg p-2 mt-2"
+                            class="w-full border rounded-lg p-2 mt-2 {{ $isLocked ? 'bg-gray-100 text-gray-500' : '' }}"
+                            {{ $isLocked ? 'readonly' : '' }}
                             required>
 
                         <!-- TWK/TIU -->
@@ -136,11 +139,10 @@
 
                             <label class="flex items-center gap-2">
 
-                                <input type="radio"
-                                    name="correct_answer"
-                                    value="{{ $key }}"
-                                    {{ old('correct_answer', $question->options->search(fn($opt) => $opt->is_correct)) == $key ? 'checked' : '' }}>
-                                Jawaban Benar
+                                <input type="radio" name="correct_answer" value="{{ $key }}"
+                                    {{ old('correct_answer', $question->options->search(fn($opt) => $opt->is_correct)) == $key ? 'checked' : '' }}
+                                    {{ $isLocked ? 'disabled' : '' }}>
+                                    Jawaban Benar
                             </label>
                         </div>
 
@@ -156,23 +158,20 @@
                             </div>
                         @endif
 
-                        <input type="file"
-                            name="option_images[]"
-                            accept="image/*"
-                            class="w-full border rounded-lg p-2 mt-2">
+                        <input type="file" name="option_images[]" accept="image/*"
+                            class="w-full border rounded-lg p-2 mt-2 {{ $isLocked ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                            {{ $isLocked ? 'disabled' : '' }}>
 
                         <!-- TKP -->
                         <div class="score-input hidden mt-3">
 
                             <label>Skor TKP</label>
 
-                            <input type="number"
-                                name="scores[]"
+                            <input type="number" name="scores[]"
                                 value="{{ old('scores.' . $key, $option->score) }}"
-                                min="1"
-                                max="5"
-                                class="w-full border rounded-lg p-2 mt-2">
-
+                                min="1" max="5"
+                                class="w-full border rounded-lg p-2 mt-2 {{ $isLocked ? 'bg-gray-100 text-gray-500' : '' }}"
+                                {{ $isLocked ? 'readonly' : '' }}>
                         </div>
 
                     </div>
@@ -184,21 +183,32 @@
             <!-- Pembahasan -->
             <div>
                 <label class="font-semibold">Pembahasan</label>
-
-                <textarea name="explanation"
-                        rows="5"
+                <textarea name="explanation" rows="5" {{ $isLocked ? 'readonly' : '' }}
                         class="w-full border rounded-lg p-3 mt-2">{{ old('explanation', $question->explanation) }}</textarea>
             </div>
+            @if($isLocked)
+                <div class="mb-5 bg-yellow-100 text-yellow-800 px-4 py-3 rounded-xl">
+                    Soal ini sudah pernah dikerjakan user, data tidak dapat diubah.
+                </div>
+            @endif
 
             <div class="flex gap-3">
                 <a href="{{ route('questions.index') }}"
-                class="bg-red-500 text-white px-6 py-3 rounded-lg">
+                    class="bg-red-500 text-white px-6 py-3 rounded-lg">
                     Kembali
                 </a>
 
-                <button type="submit" form="editSoalForm" class="bg-[#FF7A47] text-white px-6 py-3 rounded-lg cursor-pointer">
-                    Update Soal
-                </button>
+                @if(!$isLocked)
+                    <button type="submit" form="editSoalForm"
+                        class="bg-[#FF7A47] text-white px-6 py-3 rounded-lg cursor-pointer">
+                        Update Soal
+                    </button>
+                @else
+                    <button type="button" disabled
+                        class="bg-gray-300 text-gray-600 px-6 py-3 rounded-lg cursor-not-allowed">
+                        Update Soal
+                    </button>
+                @endif
             </div>
 
         </form>

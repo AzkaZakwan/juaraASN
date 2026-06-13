@@ -5,7 +5,7 @@
     <title>Kelola Soal Paket</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin.js'])
-
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -32,9 +32,18 @@
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
 
         <div>
-            <p class="text-sm text-gray-500">
-                Home > Manajemen Try Out > Kelola Soal Paket
-            </p>
+            <a href="{{ route('packages.index') }}" class="inline-block hover:scale-110 transition ">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-7 h-7"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
 
             <h1 class="text-2xl sm:text-3xl font-bold mt-1">
                 Kelola Soal Paket
@@ -48,10 +57,17 @@
             </p>
         </div>
 
-        <button form="formSoal" type="submit"
-            class="bg-[#FFA35C] text-white px-5 py-3 rounded-xl font-semibold shadow hover:scale-105 transition w-full sm:w-auto">
-            Simpan Soal Paket
-        </button>
+        @if(!$isLocked)
+            <button form="formSoal" type="submit"
+                class="bg-[#FFA35C] text-white px-5 py-3 rounded-xl font-semibold shadow hover:scale-105 transition w-full sm:w-auto">
+                Simpan Soal Paket
+            </button>
+        @else
+            <button type="button" disabled
+                class="bg-gray-300 text-gray-600 px-5 py-3 rounded-xl font-semibold shadow cursor-not-allowed w-full sm:w-auto">
+                Simpan Soal Paket
+            </button>
+        @endif
 
     </div>
 
@@ -66,6 +82,12 @@
             {{ $message }}
         </div>
     @enderror
+
+    @if($isLocked)
+        <div class="mb-4 bg-yellow-100 text-yellow-800 px-4 py-3 rounded-xl">
+            Paket ini sudah pernah dikerjakan user, susunan soal tidak dapat diubah
+        </div>
+    @endif
 
     <form id="formSoal" action="{{ route('packages.questions.store', $package->id) }}" method="POST">
         @csrf
@@ -112,12 +134,14 @@
 
                             <div class="flex gap-3">
 
-                                <input type="checkbox"
+                                <input type="checkbox" 
                                     name="questions[]"
                                     value="{{ $question->id }}"
                                     class="question-checkbox mt-1 w-5 h-5"
                                     data-category="{{ $category }}"
-                                    {{ in_array($question->id, $selectedQuestions) ? 'checked' : '' }}>
+                                    {{ in_array($question->id, $selectedQuestions) ? 'checked' : '' }}
+                                    {{ $isLocked ? 'disabled' : '' }}>
+
 
                                 <div class="flex-1">
 
@@ -226,7 +250,8 @@
                         Soal Terpilih
                     </h2>
 
-                    <div id="selectedPreview" class="space-y-3 text-sm text-gray-700">
+                    <div id="selectedPreview"
+                        class="space-y-3 text-sm text-gray-700 max-h-[420px] overflow-y-auto pr-2">
                         Belum ada soal yang dipilih.
                     </div>
                 </div>
@@ -308,9 +333,9 @@
             `;
         });
 
-        const targetTWK = 1;
-        const targetTIU = 1;
-        const targetTKP = 1;
+        const targetTWK = 30;
+        const targetTIU = 35;
+        const targetTKP = 45;
 
         document.getElementById('countTWK').innerText = `${twk} / ${targetTWK}`;
         document.getElementById('countTIU').innerText = `${tiu} / ${targetTIU}`;

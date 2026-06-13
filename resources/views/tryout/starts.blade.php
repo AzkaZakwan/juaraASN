@@ -22,6 +22,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
     </style>
+    <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
