@@ -8,13 +8,12 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body class="bg-[#FFF9F5]" style="font-family: 'Poppins', sans-serif;">
 
-        <!-- NAVBAR -->
+    <!-- NAVBAR -->
     <nav id="navbar"
         class="fixed top-0 left-0 w-full z-50 bg-[#FFA35C]/90 backdrop-blur-md text-white 
            shadow-md transition-all duration-300 will-change-transform">
@@ -24,8 +23,7 @@
 
             <!-- LOGO -->
             <div class="h-12 flex items-center overflow-visible">
-                <img src="{{ asset('images/juaraASN.png') }}"
-                    alt="logo"
+                <img src="{{ asset('images/juaraASN.png') }}" alt="logo"
                     class="h-12 w-auto scale-125 origin-left transition-all duration-300">
             </div>
 
@@ -39,7 +37,7 @@
                 @endguest
 
                 @auth
-                    @if(auth()->user()->role === 'admin')
+                    @if (auth()->user()->role === 'admin')
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
@@ -57,13 +55,44 @@
                         </form>
                     @endif
                 @endauth
-
-
             </div>
         </div>
     </nav>
+    <div class="max-w-7xl mx-auto px-4 pt-20">
+        @auth
+            @if (auth()->user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="inline-block hover:scale-110 transition">
 
-    <main class="max-w-7xl mx-auto px-4 pt-24 pb-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-700 hover:text-[#FFA35C]"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+
+                    </svg>
+
+                </a>
+            @else
+                <a href="{{ route('dashboard') }}" class="inline-block hover:scale-110 transition">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-700 hover:text-[#FFA35C]"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+
+                    </svg>
+
+                </a>
+            @endif
+        @else
+            <a href="{{ url('/') }}" class="inline-block hover:scale-110 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-700 hover:text-[#FFA35C]" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+        @endauth
+    </div>
+    <main class="max-w-7xl mx-auto px-4 pt-2 pb-12">
 
         <div class="mb-10">
 
@@ -80,17 +109,13 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             @forelse($articles as $article)
-
                 <div class="bg-white rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
 
                     {{-- Gambar --}}
                     <div class="aspect-[16/9] bg-gray-100 overflow-hidden">
-                        @if($article->image)
-                            <img
-                                src="{{ asset('storage/'.$article->image) }}"
-                                alt="{{ $article->title }}"
-                                class="w-full h-full object-cover"
-                            >
+                        @if ($article->image)
+                            <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}"
+                                class="w-full h-full object-cover">
                         @else
                             <div class="w-full h-full flex items-center justify-center text-gray-400">
                                 Tidak ada gambar
@@ -131,7 +156,6 @@
                     </h3>
 
                 </div>
-
             @endforelse
 
         </div>
@@ -145,4 +169,5 @@
     @include('components.footer')
 
 </body>
+
 </html>

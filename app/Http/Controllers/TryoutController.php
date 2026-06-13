@@ -14,11 +14,11 @@ class TryoutController extends Controller
     public function index()
     {
         $packages = Package::where('is_active', true)
-        ->whereHas('questions', fn($q) => $q->where('question_type', 'TWK'))
-        ->whereHas('questions', fn($q) => $q->where('question_type', 'TIU'))
-        ->whereHas('questions', fn($q) => $q->where('question_type', 'TKP'))
-        ->latest()
-        ->paginate(5);
+            ->whereHas('questions', fn($q) => $q->where('question_type', 'TWK'))
+            ->whereHas('questions', fn($q) => $q->where('question_type', 'TIU'))
+            ->whereHas('questions', fn($q) => $q->where('question_type', 'TKP'))
+            ->latest()
+            ->paginate(5);
 
         $rankings = [];
 
@@ -44,7 +44,7 @@ class TryoutController extends Controller
             ->pluck('packages.id')
             ->toArray();
 
-        return view('tryout.tryout', compact( 'packages','rankings','userPackageIds'));
+        return view('tryout.tryout', compact('packages', 'rankings', 'userPackageIds'));
     }
 
     public function prepare(Package $package)
@@ -257,7 +257,7 @@ class TryoutController extends Controller
             ->where('user_id', Auth::id())
             ->whereNotNull('finished_at')
             ->latest()
-            ->get();
+            ->paginate(5);
 
         return view('riwayat', compact('attempts'));
     }

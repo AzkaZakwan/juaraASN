@@ -8,19 +8,16 @@
     <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-[#FFF9F5] antialiased text-gray-800"
-    style="font-family: 'Poppins', sans-serif;">
+<body class="bg-[#FFF9F5] antialiased text-gray-800" style="font-family: 'Poppins', sans-serif;">
 
     @include('components.sidebar')
     @include('components.navbar')
 
     <!-- OVERLAY -->
-    <div id="overlay"
-        class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300">
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300">
     </div>
 
     <!-- MAIN -->
@@ -40,37 +37,29 @@
         </div>
 
         <!-- BANNER -->
-        <div class="swiper rounded-2xl overflow-hidden mb-8 shadow-lg">
+        <!-- BANNER -->
+        <div class="swiper rounded-2xl overflow-hidden mb-8 shadow-lg bg-white">
 
             <div class="swiper-wrapper">
 
-                <!-- SLIDE -->
                 <div class="swiper-slide">
-                    <div class="relative w-full h-[180px] sm:h-[260px] md:h-[320px] lg:h-[380px]">
-
-                        <img src="https://picsum.photos/1200/500?1"
-                            class="w-full h-full object-cover">
-
+                    <div class="relative w-full aspect-[1224/303]">
+                        <img src="{{ asset('images/banner1.png') }}" alt="Banner 1"
+                            class="w-full h-full object-contain">
                     </div>
                 </div>
 
-                <!-- SLIDE -->
                 <div class="swiper-slide">
-                    <div class="relative w-full h-[180px] sm:h-[260px] md:h-[320px] lg:h-[380px]">
-
-                        <img src="https://picsum.photos/1200/500?2"
-                            class="w-full h-full object-cover">
-
+                    <div class="relative w-full aspect-[1224/303]">
+                        <img src="{{ asset('images/banner2.png') }}" alt="Banner 2"
+                            class="w-full h-full object-contain">
                     </div>
                 </div>
 
-                <!-- SLIDE -->
                 <div class="swiper-slide">
-                    <div class="relative w-full h-[180px] sm:h-[260px] md:h-[320px] lg:h-[380px]">
-
-                        <img src="https://picsum.photos/1200/500?3"
-                            class="w-full h-full object-cover">
-
+                    <div class="relative w-full aspect-[1224/303]">
+                        <img src="{{ asset('images/banner3.png') }}" alt="Banner 3"
+                            class="w-full h-full object-contain">
                     </div>
                 </div>
 
@@ -91,9 +80,7 @@
                     class="flex flex-col items-center justify-center hover:scale-105 transition">
 
                     <div class="flex justify-center mb-3">
-                        <img src="{{ asset('images/BookPencil.png') }}"
-                            alt="BookPencil"
-                            class="w-8 sm:w-12">
+                        <img src="{{ asset('images/BookPencil.png') }}" alt="BookPencil" class="w-8 sm:w-12">
                     </div>
 
                     <p class="text-sm sm:text-base font-medium text-center">
@@ -106,9 +93,7 @@
                     class="flex flex-col items-center justify-center hover:scale-105 transition">
 
                     <div class="flex justify-center mb-3">
-                        <img src="{{ asset('images/Time.png') }}"
-                            alt="Time"
-                            class="w-8 sm:w-12">
+                        <img src="{{ asset('images/Time.png') }}" alt="Time" class="w-8 sm:w-12">
                     </div>
 
                     <p class="text-sm sm:text-base font-medium text-center">
@@ -121,9 +106,7 @@
                     class="flex flex-col items-center justify-center hover:scale-105 transition">
 
                     <div class="flex justify-center mb-3">
-                        <img src="{{ asset('images/Reading.png') }}"
-                            alt="Reading"
-                            class="w-8 sm:w-12">
+                        <img src="{{ asset('images/Reading.png') }}" alt="Reading" class="w-8 sm:w-12">
                     </div>
 
                     <p class="text-sm sm:text-base font-medium text-center">
@@ -138,17 +121,13 @@
         @php
             $totalPackages = Auth::user()->packages()->count();
 
-            $ownedPackages = Auth::user()
-                ->packages()
-                ->latest('user_packages.created_at')
-                ->take(2)
-                ->get();
+            $ownedPackages = Auth::user()->packages()->latest('user_packages.created_at')->take(2)->get();
         @endphp
 
         <!-- PAKET SAYA -->
         <div class="mb-12">
 
-            @if($ownedPackages->count() > 0)
+            @if ($ownedPackages->count() > 0)
 
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
 
@@ -170,9 +149,9 @@
 
                     <div class="grid gap-4">
 
-                        @foreach($ownedPackages as $package)
-
-                            <div class="border rounded-2xl p-5 flex justify-between items-center hover:shadow-md transition">
+                        @foreach ($ownedPackages as $package)
+                            <div
+                                class="border rounded-2xl p-5 flex justify-between items-center hover:shadow-md transition">
 
                                 <div>
                                     <h4 class="font-bold text-lg">
@@ -192,23 +171,21 @@
 
                             </div>
                         @endforeach
-                        
-                        @if($totalPackages > 3)
+
+                        @if ($totalPackages > 3)
                             <div class="text-center pt-2">
-                                <a href="{{ route('tryout') }}"
-                                    class="text-[#FFA35C] font-semibold hover:underline">
+                                <a href="{{ route('tryout') }}" class="text-[#FFA35C] font-semibold hover:underline">
                                     Lihat Semua Paket →
                                 </a>
                             </div>
                         @endif
                     </div>
                 </div>
-
             @else
-
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-10 text-center">
 
-                    <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-[#FFF2E8] flex items-center justify-center text-4xl">
+                    <div
+                        class="w-20 h-20 mx-auto mb-5 rounded-full bg-[#FFF2E8] flex items-center justify-center text-4xl">
                         📚
                     </div>
 
@@ -233,4 +210,5 @@
     </main>
     @include('components.footer')
 </body>
+
 </html>

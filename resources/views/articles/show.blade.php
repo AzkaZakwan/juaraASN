@@ -8,8 +8,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" type="image/png" href="{{ asset('images/juaraASNco.png') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body class="bg-[#FFF9F5]" style="font-family: 'Poppins', sans-serif;">
@@ -24,8 +23,7 @@
 
             <!-- LOGO -->
             <div class="h-12 flex items-center overflow-visible">
-                <img src="{{ asset('images/juaraASN.png') }}"
-                    alt="logo"
+                <img src="{{ asset('images/juaraASN.png') }}" alt="logo"
                     class="h-12 w-auto scale-125 origin-left transition-all duration-300">
             </div>
 
@@ -39,7 +37,7 @@
                 @endguest
 
                 @auth
-                    @if(auth()->user()->role === 'admin')
+                    @if (auth()->user()->role === 'admin')
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
@@ -77,10 +75,12 @@
         <article class="bg-white rounded-3xl shadow-sm overflow-hidden">
 
             {{-- IMAGE --}}
-            @if($article->image)
-                <div class="aspect-[16/7] rounded-3xl overflow-hidden mb-8">
-                    <img src="{{ asset('storage/'.$article->image) }}"
-                        class="w-full h-full object-cover">
+            @if ($article->image)
+                <div class="w-full bg-[#F8F8F8] rounded-3xl overflow-hidden mb-8 flex justify-center items-center p-4">
+
+                    <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}"
+                        class="w-auto max-w-full h-auto max-h-[500px] object-contain rounded-2xl">
+
                 </div>
             @endif
 
@@ -110,4 +110,5 @@
     @include('components.footer')
 
 </body>
+
 </html>

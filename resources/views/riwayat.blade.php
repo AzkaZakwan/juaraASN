@@ -46,7 +46,7 @@
             {{-- INPUT --}}
             <div class="relative flex-1">
 
-                <input type="text" placeholder="Cari Riwayat...."
+                <input type="text" id="searchInput" placeholder="Cari Riwayat...."
                     class="w-full bg-white border border-gray-200 rounded-xl pl-12 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-300">
 
                 {{-- ICON --}}
@@ -62,7 +62,7 @@
             </div>
 
             {{-- FILTER --}}
-            <button
+            {{-- <button
                 class="bg-[#8CB2FF] px-5 py-3 rounded-xl flex items-center justify-center gap-2 hover:scale-105 transition">
 
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
@@ -75,8 +75,7 @@
 
                 Filter
 
-            </button>
-            
+            </button> --}}
 
         </div>
 
@@ -89,16 +88,16 @@
                     $questionCount = $attempt->package?->questions()->count() ?? 0;
                 @endphp
 
-                <div class="border border-[#FF7A47] rounded-3xl bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition">
+                <div
+                    class="attempt-card border border-[#FF7A47] rounded-3xl bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition">
 
                     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
 
                         <div class="flex-1">
 
-                            <h2 class="text-xl font-bold mb-2">
+                            <h2 class="text-xl font-bold">
                                 {{ $attempt->package->name ?? 'Paket tidak ditemukan' }}
                             </h2>
-
                             <div class="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-4">
 
                                 <div class="flex items-center gap-1">
@@ -125,16 +124,23 @@
                                 </h3>
 
                                 <span class="text-sm bg-orange-100 text-[#FF7A47] px-3 py-1 rounded-lg font-semibold">
-                                    TWK {{ $attempt->score_twk }} | TIU {{ $attempt->score_tiu }} | TKP {{ $attempt->score_tkp }}
+                                    TWK {{ $attempt->score_twk }} | TIU {{ $attempt->score_tiu }} | TKP
+                                    {{ $attempt->score_tkp }}
                                 </span>
 
                             </div>
+                            @if (!$attempt->package?->show_explanation)
+                                <span
+                                    class="inline-flex mt-1 py-1 rounded-full text-gray-500 text-xs font-medium">
+                                    Paket gratis tidak menyediakan fitur review pembahasan
+                                </span>
+                            @endif
 
                         </div>
 
                         <div class="flex flex-col gap-3 w-full sm:w-auto">
 
-                            @if($attempt->package?->show_explanation)
+                            @if ($attempt->package?->show_explanation)
                                 <a href="{{ route('tryout.result', $attempt->id) }}"
                                     class="text-center bg-[#FFA35C] text-white px-5 py-2 rounded-xl hover:bg-[#F28C45] transition font-medium">
                                     Review
@@ -168,11 +174,56 @@
                     </a>
                 </div>
             @endforelse
-
+            <div id="emptyMessage" class="hidden bg-white border border-[#FF7A47] rounded-3xl p-8 text-center">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">
+                    Riwayat tidak ditemukan
+                </h2>
+                <p class="text-gray-500">
+                    Tidak ada riwayat yang cocok dengan pencarian.
+                </p>
+            </div>
         </div>
-
+        @if ($attempts->hasPages())
+            <div id="paginationWrapper" class="mt-8">
+                {{ $attempts->links() }}
+            </div>
+        @endif
     </main>
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const emptyMessage = document.getElementById('emptyMessage');
+        const paginationWrapper = document.getElementById('paginationWrapper');
 
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const keyword = this.value.toLowerCase().trim();
+                let visible = 0;
+
+                document.querySelectorAll('.attempt-card').forEach(card => {
+                    const text = card.innerText.toLowerCase();
+
+                    if (text.includes(keyword)) {
+                        card.classList.remove('hidden');
+                        visible++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                if (paginationWrapper) {
+                    keyword !== '' ?
+                        paginationWrapper.classList.add('hidden') :
+                        paginationWrapper.classList.remove('hidden');
+                }
+
+                if (visible === 0 && keyword !== '') {
+                    emptyMessage.classList.remove('hidden');
+                } else {
+                    emptyMessage.classList.add('hidden');
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
