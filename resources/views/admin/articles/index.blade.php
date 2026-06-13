@@ -88,15 +88,16 @@
         <div id="articleGrid"
             class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 max-h-[620px] overflow-y-auto pr-2">
             @forelse ($articles as $article)
-                <div class="article-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                <div
+                    class="article-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition flex flex-col h-full min-h-[420px]">
 
-                    <div class="bg-[#FFA35C] py-4 px-4 text-center">
-                        <h2 class="text-white font-bold text-lg sm:text-xl uppercase">
+                    <div class="bg-[#FFA35C] py-4 px-4 text-center min-h-[96px] flex items-center justify-center">
+                        <h2 class="text-white font-bold text-lg sm:text-xl uppercase line-clamp-2">
                             {{ Str::limit($article->title, 35) }}
                         </h2>
                     </div>
 
-                    <div class="h-40 sm:h-44 bg-[#F3F3F3] overflow-hidden">
+                    <div class="h-52 bg-[#F3F3F3] overflow-hidden">
                         @if ($article->image)
                             <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}"
                                 class="w-full h-full object-cover">
@@ -113,7 +114,7 @@
                         </p>
                     </div>
 
-                    <div class="flex justify-end items-center gap-4 px-5 py-4 border-t">
+                    <div class="flex justify-end items-center gap-4 px-5 py-4 border-t mt-auto">
 
                         <a href="{{ route('admin.articles.edit', $article->id) }}"
                             class="text-gray-700 hover:text-orange-500 transition">
