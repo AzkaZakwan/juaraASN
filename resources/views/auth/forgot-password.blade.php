@@ -98,10 +98,11 @@
                             class="text-sm text-gray-500 hover:text-[#FFA35C] transition">
                             ← Kembali ke Profil
                         </a>
-                    @else
-                        <a href="{{ route('profile') }}" class="text-sm text-gray-500 hover:text-[#FFA35C] transition">
+                    @else 
+                        <button type="button" onclick="history.back()"
+                            class="text-sm text-gray-500 hover:text-[#FFA35C] transition">
                             ← Kembali ke Profil
-                        </a>
+                        </button>
                     @endif
                 @else
                     <a href="{{ route('login') }}" class="text-sm text-gray-500 hover:text-[#FFA35C] transition">

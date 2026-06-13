@@ -57,7 +57,8 @@
                         Email
                     </label>
 
-                    <input id="email" type="email" name="email" value="{{ old('email', $request->email) }}"
+                    <input id="email" type="email" name="email"
+                        value="{{ old('email', $request->email ?? (auth()->check() ? auth()->user()->email : '')) }}"
                         required autofocus autocomplete="username"
                         class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#FFA35C]"
                         placeholder="Masukkan email">
@@ -147,9 +148,27 @@
             </form>
 
             <div class="mt-6 text-center">
-                <a href="{{ route('login') }}" class="text-sm text-gray-500 hover:text-[#FFA35C] transition">
-                    ← Kembali ke Login
-                </a>
+
+                @auth
+
+                    @if (auth()->user()->role === 'admin')
+                        <a href="{{ route('admin.profileadmin') }}"
+                            class="text-sm text-gray-500 hover:text-[#FFA35C] transition">
+                            ← Kembali ke Profil
+                        </a>
+                    @else
+                        <button type="button" onclick="history.back()"
+                            class="text-sm text-gray-500 hover:text-[#FFA35C] transition">
+                            ← Kembali
+                        </button>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}" class="text-sm text-gray-500 hover:text-[#FFA35C] transition">
+                        ← Kembali ke Login
+                    </a>
+
+                @endauth
+
             </div>
 
         </div>
