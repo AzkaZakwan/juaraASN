@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-[#FFF5F0] antialiased text-gray-800" style="font-family: 'Poppins', sans-serif;">
+<body class="bg-[#FFF5F0] antialiased text-gray-800 min-h-screen flex flex-col"
+    style="font-family: 'Poppins', sans-serif;">
 
     @include('components.sidebar')
     @include('components.navbar')
@@ -21,9 +22,9 @@
     <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300">
     </div>
 
-    
+
     <!-- Content -->
-    <div class="max-w-6xl mx-auto p-6 mt-4 pt-20">
+    <div class="flex-1 max-w-6xl mx-auto w-full p-6 mt-4 pt-20">
 
         {{-- BACK --}}
         <a href="{{ route('dashboard') }}" class="inline-block hover:scale-110 transition">
@@ -41,13 +42,13 @@
             Menguji pemahaman pelajar melalui soal dan try out
         </p>
 
-        @if(session('success'))
+        @if (session('success'))
             <div class="mb-4 bg-green-100 text-green-700 px-4 py-3 rounded-xl">
                 {{ session('success') }}
             </div>
         @endif
 
-        @if(session('error'))
+        @if (session('error'))
             <div class="mb-4 bg-red-100 text-red-700 px-4 py-3 rounded-xl">
                 {{ session('error') }}
             </div>
@@ -81,14 +82,31 @@
                     </h2>
 
                     <!-- Badge -->
-                    @if($package->price == 0)
-                        <span class="text-xs bg-green-100 text-green-600 px-3 py-1 rounded-full">
-                            Gratis
-                        </span>
+                    @if ($packages->count() > 0)
+                        <!-- Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                            @foreach ($packages as $package)
+                                {{-- seluruh isi card package tetap sama --}}
+                            @endforeach
+
+                        </div>
                     @else
-                        <span class="text-xs bg-orange-100 text-[#FF7A47] px-3 py-1 rounded-full">
-                            Premium
-                        </span>
+                        <div class="bg-white border border-[#FFA35C] rounded-3xl p-10 text-center shadow-sm mt-6">
+
+                            <div class="text-6xl mb-4">
+                                📚
+                            </div>
+
+                            <h3 class="text-2xl font-bold text-gray-700">
+                                Belum Ada Paket Try Out
+                            </h3>
+
+                            <p class="text-gray-500 mt-3">
+                                Paket try out belum tersedia saat ini.
+                            </p>
+
+                        </div>
                     @endif
 
                     <!-- Info -->
@@ -99,7 +117,7 @@
 
                     <!-- Button -->
                     <div class="flex gap-2 mt-4">
-                        @if($package->price == 0 || in_array($package->id, $userPackageIds))
+                        @if ($package->price == 0 || in_array($package->id, $userPackageIds))
                             <a href="{{ route('prepare', $package->id) }}"
                                 class="w-full bg-[#6FD8CA] text-center text-white py-2 rounded-lg hover:bg-[#59C4B5] transition">
                                 Kerjakan
@@ -124,15 +142,15 @@
                 <div id="rankingOverlay-{{ $package->id }}"
                     class="rankingOverlay fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300">
 
-                    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl shadow-2xl w-[95%] sm:w-[90%] md:w-[700px] max-h-[85vh] overflow-hidden">
+                    <div
+                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl shadow-2xl w-[95%] sm:w-[90%] md:w-[700px] max-h-[85vh] overflow-hidden">
 
                         <div class="bg-[#FFA35C] text-white px-6 py-4 flex items-center justify-between">
                             <h2 class="text-lg sm:text-2xl font-bold">
                                 Ranking {{ $package->name }}
                             </h2>
 
-                            <button type="button"
-                                class="closeRanking text-2xl hover:scale-110 transition"
+                            <button type="button" class="closeRanking text-2xl hover:scale-110 transition"
                                 data-package-id="{{ $package->id }}">
                                 ✕
                             </button>
@@ -197,8 +215,7 @@
 
         </div>
 
-        <div id="emptyPackage"
-            class="hidden text-center py-12">
+        <div id="emptyPackage" class="hidden text-center py-12">
 
             <h3 class="text-2xl font-bold text-gray-500">
                 Paket tidak ditemukan
@@ -221,7 +238,7 @@
 
 <script>
     document.querySelectorAll('.openRanking').forEach(button => {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', function() {
             const packageId = this.dataset.packageId;
             const overlay = document.getElementById(`rankingOverlay-${packageId}`);
 
@@ -235,7 +252,7 @@
     });
 
     document.querySelectorAll('.closeRanking').forEach(button => {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', function() {
             const packageId = this.dataset.packageId;
             const overlay = document.getElementById(`rankingOverlay-${packageId}`);
 
@@ -289,4 +306,3 @@
 </script>
 
 </html>
-
