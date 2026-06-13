@@ -84,13 +84,18 @@
                 <div class="bg-white rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
 
                     {{-- Gambar --}}
-                    <div class="h-52 bg-gray-100">
-
-                        <div class="aspect-video rounded-2xl overflow-hidden bg-gray-100">
-                            <img src="{{ asset('storage/'.$article->image) }}"
-                                class="w-full h-full object-cover">
-                        </div>
-
+                    <div class="aspect-[16/9] bg-gray-100 overflow-hidden">
+                        @if($article->image)
+                            <img
+                                src="{{ asset('storage/'.$article->image) }}"
+                                alt="{{ $article->title }}"
+                                class="w-full h-full object-cover"
+                            >
+                        @else
+                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                Tidak ada gambar
+                            </div>
+                        @endif
                     </div>
 
                     {{-- Content --}}

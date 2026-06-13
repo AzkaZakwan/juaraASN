@@ -95,12 +95,13 @@
                         </h2>
                     </div>
 
-                    <div class="aspect-video bg-[#F3F3F3] overflow-hidden">
-                         @if($article->image)
+                    <div class="h-40 sm:h-44 bg-[#F3F3F3] overflow-hidden">
+                        @if($article->image)
                             <img src="{{ asset('storage/' . $article->image) }}"
+                                alt="{{ $article->title }}"
                                 class="w-full h-full object-cover">
                         @else
-                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                            <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
                                 Tidak ada gambar
                             </div>
                         @endif

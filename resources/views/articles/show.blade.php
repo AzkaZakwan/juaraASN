@@ -14,8 +14,54 @@
 
 <body class="bg-[#FFF9F5]" style="font-family: 'Poppins', sans-serif;">
 
-    @include('components.sidebar')
-    @include('components.navbar')
+    <!-- NAVBAR -->
+    <nav id="navbar"
+        class="fixed top-0 left-0 w-full z-50 bg-[#FFA35C]/90 backdrop-blur-md text-white 
+           shadow-md transition-all duration-300 will-change-transform">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 
+                flex justify-between items-center py-4 transition-all duration-300">
+
+            <!-- LOGO -->
+            <div class="h-12 flex items-center overflow-visible">
+                <img src="{{ asset('images/juaraASN.png') }}"
+                    alt="logo"
+                    class="h-12 w-auto scale-125 origin-left transition-all duration-300">
+            </div>
+
+            <!-- MENU -->
+            <div class="flex items-center gap-3 sm:gap-5 md:gap-6">
+                @guest
+                    <a href="{{ route('login') }}"
+                        class="bg-[#6FD8CA] px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm md:text-base text-white hover:bg-[#5ACAA1] transition">
+                        Login
+                    </a>
+                @endguest
+
+                @auth
+                    @if(auth()->user()->role === 'admin')
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="bg-[#6FD8CA] px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm md:text-base text-white hover:bg-[#5ACAA1] transition">
+                                Logout
+                            </button>
+                        </form>
+                    @else
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="bg-[#6FD8CA] px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm md:text-base text-white hover:bg-[#5ACAA1] transition">
+                                Logout
+                            </button>
+                        </form>
+                    @endif
+                @endauth
+
+
+            </div>
+        </div>
+    </nav>
 
     <main class="max-w-5xl mx-auto px-4 pt-24 pb-12">
 
