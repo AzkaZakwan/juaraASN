@@ -16,7 +16,8 @@
     {{-- SIDEBAR --}}
     @include('components.sideadmin')
     <!-- MOBILE NAVBAR -->
-    <div class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FFA35C] shadow-md px-4 flex items-center justify-between">
+    <div
+        class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FFA35C] shadow-md px-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <button id="openSidebar" class="p-2 rounded-lg hover:bg-white/20 transition text-white">
                 ☰
@@ -53,7 +54,7 @@
             <div class="relative flex-1">
 
                 <input type="text" id="searchInput" placeholder="Cari artikel..."
-                    class="w-full bg-white rounded-xl border border-gray-200 pl-11 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-300">
+                    class="w-full bg-white rounded-xl shadow px-10 py-3 outline-none focus:ring-2 focus:ring-orange-300">
 
                 {{-- ICON --}}
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -96,9 +97,8 @@
                     </div>
 
                     <div class="h-40 sm:h-44 bg-[#F3F3F3] overflow-hidden">
-                        @if($article->image)
-                            <img src="{{ asset('storage/' . $article->image) }}"
-                                alt="{{ $article->title }}"
+                        @if ($article->image)
+                            <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}"
                                 class="w-full h-full object-cover">
                         @else
                             <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
@@ -120,14 +120,12 @@
                             Edit
                         </a>
 
-                        <form action="{{ route('admin.articles.destroy', $article->id) }}"
-                            method="POST"
+                        <form action="{{ route('admin.articles.destroy', $article->id) }}" method="POST"
                             onsubmit="return confirm('Hapus artikel ini?')">
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit"
-                                class="text-gray-700 hover:text-red-500 transition">
+                            <button type="submit" class="text-gray-700 hover:text-red-500 transition">
                                 Hapus
                             </button>
                         </form>
@@ -139,7 +137,7 @@
                 <div class="col-span-full bg-white rounded-3xl p-8 text-center text-gray-500">
                     Belum ada artikel.
                 </div>
-            @endforelse                      
+            @endforelse
         </div>
         <div id="emptyMessage" class="hidden bg-white rounded-3xl p-8 text-center text-gray-500 mt-6">
             Tidak ada artikel yang ditemukan.
@@ -152,7 +150,7 @@
 <script>
     const searchInput = document.getElementById('searchInput');
 
-    searchInput.addEventListener('input', function () {
+    searchInput.addEventListener('input', function() {
         const keyword = this.value.toLowerCase().trim();
         let visible = 0;
 
@@ -171,9 +169,9 @@
         const paginationWrapper = document.getElementById('paginationWrapper');
 
         if (paginationWrapper) {
-            keyword !== ''
-                ? paginationWrapper.classList.add('hidden')
-                : paginationWrapper.classList.remove('hidden');
+            keyword !== '' ?
+                paginationWrapper.classList.add('hidden') :
+                paginationWrapper.classList.remove('hidden');
         }
 
         if (visible === 0) {
@@ -183,4 +181,5 @@
         }
     });
 </script>
+
 </html>

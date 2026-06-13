@@ -22,24 +22,24 @@ Route::middleware('guest')->group(function () {
         ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
-
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-        ->name('password.request');
-
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
-
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
-        ->name('password.reset');
-
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.store');
 });
+
+Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->name('password.request');
+
+Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->name('password.email');
+
+Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+    ->name('password.reset');
+
+Route::post('reset-password', [NewPasswordController::class, 'store'])
+    ->name('password.store');
 
 Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['auth', 'signed'])
     ->name('verification.verify');
-    
+
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
@@ -57,11 +57,10 @@ Route::middleware('auth')->group(function () {
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
-    
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('edit');
 
     Route::patch('/profile', [ProfileController::class, 'update'])->name('update');
 
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-

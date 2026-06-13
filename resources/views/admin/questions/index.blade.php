@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,8 @@
     @include('components.sideadmin')
 
     <!-- MOBILE NAVBAR -->
-    <div class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FFA35C] shadow-md px-4 flex items-center justify-between">
+    <div
+        class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FFA35C] shadow-md px-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <button id="openSidebar" class="p-2 rounded-lg hover:bg-white/20 transition text-white">
                 ☰
@@ -33,7 +35,7 @@
             BANK SOAL
         </h1>
 
-        @if(session('success'))
+        @if (session('success'))
             <div class="mb-4 bg-green-100 text-green-700 px-4 py-3 rounded-xl">
                 {{ session('success') }}
             </div>
@@ -55,19 +57,24 @@
                 <input type="text" id="searchInput" placeholder="Cari Bank Soal...."
                     class="w-full bg-white rounded-xl shadow px-10 py-3 outline-none focus:ring-2 focus:ring-orange-300">
 
-                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                    🔍
-                </div>
+                {{-- ICON --}}
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m21 21-4.35-4.35m1.85-5.65a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" />
+                </svg>
             </div>
         </div>
         {{-- error validation --}}
-        @if(session('error'))
+        @if (session('error'))
             <div class="mb-4 bg-red-100 text-red-700 px-4 py-3 rounded-xl">
                 {{ session('error') }}
             </div>
         @endif
 
-        @if(session('success'))
+        @if (session('success'))
             <div class="mb-4 bg-green-100 text-green-700 px-4 py-3 rounded-xl">
                 {{ session('success') }}
             </div>
@@ -115,11 +122,13 @@
                                     </h2>
 
                                     <div class="flex flex-wrap gap-2 mb-3">
-                                        <span class="bg-orange-100 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full">
+                                        <span
+                                            class="bg-orange-100 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full">
                                             {{ $category }}
                                         </span>
 
-                                        <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-full">
+                                        <span
+                                            class="bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-full">
                                             {{ $question->sub_category ?? 'Tanpa Subkategori' }}
                                         </span>
                                     </div>
@@ -128,9 +137,8 @@
                                         {{ Str::limit($question->question_text, 120) }}
                                     </p>
 
-                                    @if($question->question_image)
-                                        <img
-                                            src="{{ asset('storage/' . $question->question_image) }}"
+                                    @if ($question->question_image)
+                                        <img src="{{ asset('storage/' . $question->question_image) }}"
                                             alt="Gambar Soal"
                                             class="mt-3 max-h-40 rounded-xl border object-contain bg-white p-2">
                                     @endif
@@ -166,8 +174,8 @@
                             Belum ada soal di bank soal.
                         </div>
                     @endforelse
-                        <div id="emptyMessage" class="hidden text-center text-gray-500 py-10">
-                        </div>
+                    <div id="emptyMessage" class="hidden text-center text-gray-500 py-10">
+                    </div>
                 </div>
                 @if ($questions->hasPages())
                     <div id="paginationWrapper" class="flex justify-center items-center gap-3 mt-8">
@@ -206,71 +214,43 @@
     </main>
 
     <script>
-        let activeTab = 'ALL';
+        function filterQuestions() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.question-card');
+            const emptyMessage = document.getElementById('emptyMessage');
+            const paginationWrapper = document.getElementById('paginationWrapper');
 
-        // function showTab(category) {
-        //     activeTab = category;
+            let visibleCount = 0;
 
-        //     document.querySelectorAll('.tab-btn').forEach(btn => {
-        //         if (btn.dataset.tab === category) {
-        //             btn.classList.remove('bg-gray-200', 'text-gray-700');
-        //             btn.classList.add('bg-[#FFA35C]', 'text-white');
-        //         } 
-        //         else {
-        //             btn.classList.remove('bg-[#FFA35C]', 'text-white');
-        //             btn.classList.add('bg-gray-200', 'text-gray-700');
-        //         }
-        //     });
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
 
-        //     filterQuestions();
-        // }
+                if (text.includes(keyword)) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
 
-        // function filterQuestions() {
-        //     const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
-        //     let visibleCount = 0;
-        //     const paginationWrapper = document.getElementById('paginationWrapper');
+            if (paginationWrapper) {
+                keyword !== '' ?
+                    paginationWrapper.classList.add('hidden') :
+                    paginationWrapper.classList.remove('hidden');
+            }
 
-        //     if (paginationWrapper) {
-        //         if (keyword !== '') {
-        //             paginationWrapper.classList.add('hidden');
-        //         } else {
-        //             paginationWrapper.classList.remove('hidden');
-        //         }
-        //     }
+            if (visibleCount === 0) {
+                emptyMessage.classList.remove('hidden');
+                emptyMessage.innerText = 'Tidak ada soal yang cocok dengan pencarian.';
+            } else {
+                emptyMessage.classList.add('hidden');
+                emptyMessage.innerText = '';
+            }
+        }
 
-        //     document.querySelectorAll('.question-card').forEach(card => {
-        //         const category = card.dataset.category;
-        //         const text = card.innerText.toLowerCase();
-
-        //         const matchCategory = activeTab === 'ALL' || category === activeTab;
-        //         const matchSearch = text.includes(keyword);
-
-        //         if (matchCategory && matchSearch) {
-        //             card.style.display = 'block';
-        //             visibleCount++;
-        //         } else {
-        //             card.style.display = 'none';
-        //         }
-        //     });
-
-        //     const emptyMessage = document.getElementById('emptyMessage');
-
-        //     if (visibleCount === 0) {
-        //         emptyMessage.classList.remove('hidden');
-
-        //         if (keyword !== '') {
-        //             emptyMessage.innerText = 'Tidak ada soal yang cocok dengan pencarian.';
-        //         } else {
-        //             emptyMessage.innerText = 'Belum ada soal pada kategori ini.';
-        //         }
-        //     } else {
-        //         emptyMessage.classList.add('hidden');
-        //         emptyMessage.innerText = '';
-        //     }
-        // }
         document.getElementById('searchInput').addEventListener('input', filterQuestions);
-        // showTab('TWK');
     </script>
 
 </body>
+
 </html>

@@ -32,9 +32,9 @@
             <!-- MENU -->
             <div class="flex items-center gap-3 sm:gap-5 md:gap-6">
 
-                <a href="#" class="text-xs sm:text-sm md:text-lg hover:text-orange-300 transition">
+                {{-- <a href="#" class="text-xs sm:text-sm md:text-lg hover:text-orange-300 transition">
                     Paket
-                </a>
+                </a> --}}
                 <a href="#testimoni" class="text-xs sm:text-sm md:text-lg hover:text-orange-300 transition">
                     Testimoni
                 </a>

@@ -67,6 +67,11 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                @if (session('status'))
+                    <div class="mb-4 rounded-xl bg-green-100 border border-green-300 text-green-700 px-4 py-3 text-sm">
+                        {{ session('status') }}
+                    </div>
+                @endif
 
                 <!-- ERROR MESSAGE -->
                 @if ($errors->any())

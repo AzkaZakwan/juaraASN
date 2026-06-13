@@ -107,6 +107,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::patch('packages/{package}/toggle-active', [PackageController::class, 'toggleActive'])
     ->name('packages.toggleActive');
 
+    Route::get('/profile', function () {
+        return view('admin.profileadmin');
+    })->name('admin.profileadmin');
+
     Route::resource('articles', AdminArticleController::class)
     ->names('admin.articles');
     

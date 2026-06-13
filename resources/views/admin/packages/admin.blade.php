@@ -16,7 +16,8 @@
     @include('components.sideadmin')
 
     <!-- MOBILE NAVBAR -->
-    <div class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FFA35C] shadow-md px-4 flex items-center justify-between">
+    <div
+        class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FFA35C] shadow-md px-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <button id="openSidebar" class="p-2 rounded-lg hover:bg-white/20 transition text-white">
                 ☰
@@ -37,13 +38,13 @@
                 Daftar Try Out
             </h1>
 
-            @if(session('error'))
+            @if (session('error'))
                 <div class="mb-4 bg-red-100 text-red-700 px-4 py-3 rounded-xl">
                     {{ session('error') }}
                 </div>
             @endif
 
-            @if(session('success'))
+            @if (session('success'))
                 <div class="mb-4 bg-green-100 text-green-700 px-4 py-3 rounded-xl">
                     {{ session('success') }}
                 </div>
@@ -53,22 +54,24 @@
             <div class="flex gap-3 mb-6">
                 <div class="relative flex-1">
 
-                    <input
-                        type="text"
-                        id="searchInput"
-                        placeholder="Cari Try Out..."
+                    <input type="text" id="searchInput" placeholder="Cari Try Out..."
                         class="w-full bg-white rounded-xl shadow px-10 py-3 outline-none focus:ring-2 focus:ring-orange-300">
 
-                    <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                        🔍
-                    </div>
+                    {{-- ICON --}}
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m21 21-4.35-4.35m1.85-5.65a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" />
+                    </svg>
 
                 </div>
             </div>
-            <div id="packageList"
-                class="space-y-4 max-h-[550px] overflow-y-auto pr-2">
+            <div id="packageList" class="space-y-4 max-h-[550px] overflow-y-auto pr-2">
                 @forelse ($packages as $package)
-                    <div class="package-card bg-[#FFA35C] rounded-xl p-5 flex items-center justify-between shadow-md hover:scale-[1.01] transition">
+                    <div
+                        class="package-card bg-[#FFA35C] rounded-xl p-5 flex items-center justify-between shadow-md hover:scale-[1.01] transition">
 
                         <div class="text-white">
                             <h2 class="font-bold text-lg">
@@ -76,7 +79,8 @@
                             </h2>
 
                             <div class="mb-1">
-                                <span class="text-xs font-bold px-3 py-1 rounded-full
+                                <span
+                                    class="text-xs font-bold px-3 py-1 rounded-full
                                     {{ $package->is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
                                     {{ $package->is_active ? 'Aktif' : 'Nonaktif' }}
                                 </span>
@@ -117,9 +121,7 @@
                         Belum ada paket try out.
                     </div>
                 @endforelse
-                <div
-                    id="emptyMessage"
-                    class="hidden text-center text-gray-500 py-10">
+                <div id="emptyMessage" class="hidden text-center text-gray-500 py-10">
                 </div>
 
             </div>
@@ -169,7 +171,7 @@
     <script>
         const searchInput = document.getElementById('searchInput');
 
-        searchInput.addEventListener('input', function () {
+        searchInput.addEventListener('input', function() {
 
             const keyword = this.value.toLowerCase().trim();
             let visible = 0;
@@ -199,4 +201,5 @@
         });
     </script>
 </body>
+
 </html>

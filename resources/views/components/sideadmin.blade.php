@@ -15,8 +15,7 @@
         <div class="px-8 py-8 flex justify-center items-center relative">
 
             <div class="flex justify-center items-center">
-                <img src="{{ asset('images/juaraASN.png') }}"
-                    alt="logo"
+                <img src="{{ asset('images/juaraASN.png') }}" alt="logo"
                     class="h-12 w-auto scale-150 transition-transform duration-300">
             </div>
 
@@ -43,7 +42,7 @@
                 Manajemen Try Out
             </a>
 
-            <a href="{{ route('questions.index') }}"            
+            <a href="{{ route('questions.index') }}"
                 class="block px-4 py-3 rounded-xl transition
                 {{ request()->is('admin/questions*') ? 'bg-white text-[#FF6B1A] font-bold shadow-md' : 'hover:bg-white/20' }}">
                 Manajemen Bank Soal
@@ -53,6 +52,11 @@
                 {{ request()->is('admin/articles*') ? 'bg-white text-[#FF6B1A] font-bold shadow-md' : 'hover:bg-white/20' }}">
                 Artikel
             </a>
+            <a href="{{ route('admin.profileadmin') }}"
+                class="block px-4 py-3 rounded-xl transition
+                {{ request()->routeIs('admin.profileadmin') ? 'bg-white text-[#FF6B1A] font-bold shadow-md' : 'hover:bg-white/20' }}">
+                Profil
+            </a>
 
         </nav>
 
@@ -60,7 +64,7 @@
 
     <!-- BOTTOM -->
     <div class="p-6">
-        <form  method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit"
                 class="flex items-center justify-center w-full bg-[#F87171] hover:bg-pink-600 text-white py-3 rounded-2xl text-sm font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] transition duration-300">

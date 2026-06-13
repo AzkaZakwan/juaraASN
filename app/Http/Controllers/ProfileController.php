@@ -24,15 +24,19 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:50',
             // 'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+        ], [
+            'name.required' => 'Nama wajib diisi',
+            'name.string' => 'Nama harus berupa teks',
+            'name.max' => 'Nama maksimal 50 karakter',
         ]);
 
         $user->update([
             'name' => $data['name'],
         ]);
 
-        return back()->with('success', 'Profil berhasil diperbarui.');
+        return back()->with('success', 'Profil berhasil diperbarui');
     }
 
 
