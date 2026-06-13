@@ -25,15 +25,22 @@ class ProfileController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:50',
+            'phone' => [
+                'nullable',
+                'regex:/^(08|628)[0-9]{8,11}$/',
+            ],
             // 'email' => 'required|email|max:255|unique:users,email,' . $user->id,
         ], [
             'name.required' => 'Nama wajib diisi',
             'name.string' => 'Nama harus berupa teks',
             'name.max' => 'Nama maksimal 50 karakter',
+
+            'phone.regex' => 'Nomor HP harus menggunakan format Indonesia (08xxxxxxxxxx atau 628xxxxxxxxxx).',
         ]);
 
         $user->update([
             'name' => $data['name'],
+            'phone' => $data['phone']
         ]);
 
         return back()->with('success', 'Profil berhasil diperbarui');

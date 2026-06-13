@@ -90,10 +90,12 @@
                     <label class="block text-sm mb-2 font-medium">
                         Email
                     </label>
+
                     <div class="relative">
 
                         <input type="email" value="{{ Auth::user()->email }}" readonly
                             class="w-full bg-gray-100 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-gray-500 cursor-not-allowed">
+
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor"
                             class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -102,13 +104,39 @@
                                 d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
 
                         </svg>
+
                     </div>
-                    <br>
-                    <a href="{{ route('password.request') }}" class="block w-full text-center text-[#FFA35C]">
-                        Reset Password
-                    </a>
+                </div>
+
+                {{-- NOMOR HP --}}
+                <div>
+
+                    <label class="block text-sm mb-2 font-medium">
+                        Nomor HP
+                    </label>
+
+                    <div class="relative">
+
+                        <input type="text" name="phone" value="{{ old('phone', Auth::user()->phone) }}"
+                            placeholder="Contoh: 081234567890"
+                            class="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-300">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21L8.7 10.1a11.042 11.042 0 005.2 5.2l.713-1.524a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 15.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+
+                        </svg>
+
+                    </div>
 
                 </div>
+
+                <a href="{{ route('password.request') }}" class="block w-full text-center text-[#FFA35C]">
+                    Reset Password
+                </a>
 
                 {{-- ALAMAT --}}
                 {{-- <div>
