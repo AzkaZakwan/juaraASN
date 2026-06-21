@@ -37,7 +37,6 @@
         </div>
 
         <!-- BANNER -->
-        <!-- BANNER -->
         <div class="swiper rounded-2xl overflow-hidden mb-8 shadow-lg bg-white">
 
             <div class="swiper-wrapper">
@@ -138,7 +137,7 @@
                             </h3>
 
                             <p class="text-gray-500 text-sm mt-1">
-                                Paket yang sudah kamu miliki.
+                                Paket yang sudah kamu miliki
                             </p>
                         </div>
 
