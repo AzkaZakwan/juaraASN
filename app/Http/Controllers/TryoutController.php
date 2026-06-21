@@ -8,6 +8,7 @@ use App\Models\Attempt;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Answer;
 use App\Models\QuestionOption;
+use Illuminate\Support\Str;
 
 class TryoutController extends Controller
 {
@@ -64,7 +65,6 @@ class TryoutController extends Controller
         }
         return view('tryout.prepare', compact('package'));
     }
-
     public function start(Package $package)
     {
         if (!$package->is_active) {
@@ -102,11 +102,19 @@ class TryoutController extends Controller
             return redirect()->route('starts', $unfinishedAttempt->id);
         }
 
+        $deviceToken = session()->get('device_token');
+
+        if (!$deviceToken) {
+            $deviceToken = Str::uuid()->toString();
+            session()->put('device_token', $deviceToken);
+        }
+
         $attempt = Attempt::create([
             'user_id' => Auth::id(),
             'package_id' => $package->id,
             'started_at' => now(),
             'status' => 'ongoing',
+            'device_token' => $deviceToken,
         ]);
 
         return redirect()->route('starts', $attempt->id);
@@ -117,6 +125,13 @@ class TryoutController extends Controller
         if ($attempt->user_id !== Auth::id()) {
             abort(403);
         }
+
+        if ($attempt->device_token !== session()->get('device_token')) {
+            return redirect()
+                ->route('tryout')
+                ->with('error', 'Tryout sedang berlangsung di perangkat lain.');
+        }
+
         if ($attempt->finished_at) {
             return redirect()->route('tryout.result', $attempt->id);
         }
@@ -190,21 +205,6 @@ class TryoutController extends Controller
         ]);
     }
 
-    // public function saveAnswer(Request $request)
-    // {
-    //     Answer::updateOrCreate(
-    //         [
-    //             'attempt_id' => $request->attempt_id,
-    //             'question_id' => $request->question_id,
-    //         ],
-    //         [
-    //             'option_id' => $request->option_id,
-    //         ]
-    //     );
-
-    //     return response()->json(['success' => true]);
-    // }
-
     public function saveAnswer(Request $request)
     {
         $request->validate([
@@ -212,6 +212,18 @@ class TryoutController extends Controller
             'question_id' => 'required|exists:question_banks,id',
             'option_id' => 'required|exists:question_options,id',
         ]);
+
+        $attempt = Attempt::findOrFail($request->attempt_id);
+        if ($attempt->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if ($attempt->device_token !== session()->get('device_token')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tryout sedang berlangsung di perangkat lain.',
+            ], 403);
+        }
 
         $option = QuestionOption::findOrFail($request->option_id);
 
@@ -235,6 +247,10 @@ class TryoutController extends Controller
     {
         if ($attempt->user_id !== Auth::id()) {
             abort(403);
+        }
+
+        if ($attempt->device_token !== session()->get('device_token')) {
+            abort(403, 'Tryout sedang berlangsung di perangkat lain.');
         }
         $this->calculateAndFinish($attempt);
 

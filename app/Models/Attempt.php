@@ -15,6 +15,7 @@ class Attempt extends Model
         'score_twk',
         'score_tiu',
         'score_tkp',
+        'device_token',
     ];
 
     protected $casts = [
