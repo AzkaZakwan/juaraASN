@@ -39,7 +39,7 @@ class QuestionBankController extends Controller
         $request->validate([
             'question_text' => 'required',
             'question_type' => 'required|in:TWK,TIU,TKP',
-            'sub_category' => 'required',
+            // 'sub_category' => 'required',
             'question_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1024',
             'option_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1024',
             'options' => 'required|array|min:5',
@@ -77,7 +77,7 @@ class QuestionBankController extends Controller
         $question = QuestionBank::create([
             'question_text' => $request->question_text,
             'question_type' => $request->question_type,
-            'sub_category' => $request->sub_category,
+            // 'sub_category' => $request->sub_category,
             'question_image' => $questionImagePath,
             'explanation' => $request->explanation,
         ]);
@@ -135,7 +135,7 @@ class QuestionBankController extends Controller
         $request->validate([
             'question_text' => 'required',
             'question_type' => 'required|in:TWK,TIU,TKP',
-            'sub_category' => 'required',
+            // 'sub_category' => 'required',
             'question_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1024',
             'option_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1024',
             'options' => 'required|array|min:5',
@@ -172,7 +172,7 @@ class QuestionBankController extends Controller
         $question->update([
             'question_text' => $request->question_text,
             'question_type' => $request->question_type,
-            'sub_category' => $request->sub_category,
+            // 'sub_category' => $request->sub_category,
             'question_image' => $questionImagePath,
             'explanation' => $request->explanation,
         ]);

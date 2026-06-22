@@ -120,7 +120,7 @@
         @php
             $totalPackages = Auth::user()->packages()->count();
 
-            $ownedPackages = Auth::user()->packages()->latest('user_packages.created_at')->take(2)->get();
+            $ownedPackages = Auth::user()->packages()->latest('user_packages.created_at')->take(3)->get();
         @endphp
 
         <!-- PAKET SAYA -->
@@ -171,7 +171,7 @@
                             </div>
                         @endforeach
 
-                        @if ($totalPackages > 3)
+                        @if ($totalPackages >= 3)
                             <div class="text-center pt-2">
                                 <a href="{{ route('tryout') }}" class="text-[#FFA35C] font-semibold hover:underline">
                                     Lihat Semua Paket →

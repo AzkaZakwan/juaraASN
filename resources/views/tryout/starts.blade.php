@@ -16,7 +16,7 @@
         window.submitUrl = "{{ route('tryout.submit', $attempt->id) }}";
         window.csrfToken = "{{ csrf_token() }}";
     </script>
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/tryout.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         .card-shadow {
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -26,22 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-[#FFF9F5] antialiased text-slate-800" style="font-family: 'Poppins', sans-serif;">
-
-    <nav id="navbar"
-        class="fixed top-0 left-0 w-full z-50 
-        bg-[#FFA35C]/90 backdrop-blur-md text-white shadow-md">
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 
-            flex justify-between items-center py-3 sm:py-4">
-
-            <!-- LOGO -->
-            <div>
-                <img src="{{ asset('images/juaraASN.png') }}" alt="logo" class="h-10 sm:h-12">
-            </div>
-
-        </div>
-    </nav>
+<body class=" antialiased text-slate-800" style="font-family: 'Poppins', sans-serif;">
 
     {{-- Main --}}
     <main class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 mt-4 pt-20">
@@ -56,7 +41,7 @@
             </div>
 
             <div class="grid grid-cols-1 xl:grid-cols-[1.3fr_0.9fr] gap-5 lg:gap-8 items-start mt-6">
-                <div class="bg-white rounded-3xl p-4 sm:p-6 lg:p-8 card-shadow border border-[#FF7A47]">
+                <div class="bg-white rounded-3xl p-4 sm:p-6 lg:p-8 card-shadow">
                     <div class="border-b border-slate-200 pb-4 mb-6">
                         <h2 id="judulSoal" class="text-lg sm:text-xl font-bold text-slate-800">
                             Soal No 1
@@ -64,8 +49,8 @@
                     </div>
 
                     <div id="questionText"
-                        class="text-sm sm:text-base text-slate-700 leading-relaxed mb-6 sm:mb-8 text-justify font-medium">
-                    </div>       
+                        class="text-sm sm:text-base text-slate-700 leading-relaxedmb-6 sm:mb-8 text-justify font-medium">
+                    </div>
 
                     <div class="border-t border-slate-100 pt-6 space-y-4">
                         <div id="optionsContainer"></div>
@@ -73,28 +58,27 @@
 
                     <div class="mt-8 flex gap-3">
                         <button id="btnPrev"
-                            class="bg-[#A89F94] text-white px-5 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base rounded-2xl font-bold shadow-md hover:bg-[#968d83] transition">
+                            class="text-[#FFA35C] border-2 border-[#FFA35C] px-5 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base rounded-2xl ">
                             Sebelumnya
                         </button>
 
                         <button id="btnNext"
-                            class="bg-[#A89F94] text-white px-5 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base rounded-2xl font-bold shadow-md hover:bg-[#4a4744] transition">
+                            class="bg-[#FFA35C] text-white px-5 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base rounded-2xl">
                             Selanjutnya
                         </button>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-3xl p-4 sm:p-6 card-shadow border border-[#FF7A47] w-full">
+                <div class="bg-white rounded-3xl p-4 sm:p-6 card-shadow ">
                     <div class="text-center mb-6">
-                        <span class="text-[#FF8B60] font-bold border-b-2 border-[#FF7A47] pb-1 px-4">Nomor
-                            Soal</span>
+                        <span class="inline-block w-3/4 text-[#000] font-bold border-b border-[#5e5c5c]/50 pb-2 px-4">Nomor Soal</span>
                     </div>
 
                     <div class="flex flex-wrap gap-1 mb-6">
                         @for ($i = 1; $i <= $questions->count(); $i++)
                             <button
                                 class="soal-btn w-9 h-9 md:w-10 md:h-10 flex-shrink-0 flex items-center justify-center text-xs font-bold border rounded-lg transition-all duration-200 hover:scale-105 bg-white border-[#FF8B60] text-[#FF8B60]"
-                                data-question-id="{{ $questions[$i-1]->id }}">
+                                data-question-id="{{ $questions[$i - 1]->id }}">
                                 {{ $i }}
                             </button>
                         @endfor

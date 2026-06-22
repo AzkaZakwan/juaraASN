@@ -106,14 +106,14 @@
             </div>
 
             <!-- Sub Kategori -->
-            <div>
+            {{-- <div>
                 <label class="font-semibold">Sub Kategori</label>
 
                 <select name="sub_category" id="subCategory"
                     class="w-full border rounded-lg p-3 mt-2 required{{ $isLocked ? 'bg-gray-100 cursor-not-allowed' : '' }}"
                     {{ $isLocked ? 'disabled' : '' }}>
                 </select>
-            </div>
+            </div> --}}
 
             <!-- Opsi -->
             <div class="space-y-4">

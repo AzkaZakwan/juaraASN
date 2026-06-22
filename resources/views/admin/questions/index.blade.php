@@ -74,11 +74,11 @@
             </div>
         @endif
 
-        @if (session('success'))
+        {{-- @if (session('success'))
             <div class="mb-4 bg-green-100 text-green-700 px-4 py-3 rounded-xl">
                 {{ session('success') }}
             </div>
-        @endif
+        @endif --}}
 
         <!-- CARD -->
         <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
@@ -127,10 +127,10 @@
                                             {{ $category }}
                                         </span>
 
-                                        <span
+                                        {{-- <span
                                             class="bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-full">
                                             {{ $question->sub_category ?? 'Tanpa Subkategori' }}
-                                        </span>
+                                        </span> --}}
                                     </div>
 
                                     <p class="question-text text-sm text-gray-500">

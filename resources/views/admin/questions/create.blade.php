@@ -77,13 +77,13 @@
             </div>
 
             <!-- Sub Kategori -->
-            <div>
+            {{-- <div>
                 <label class="font-semibold">Sub Kategori</label>
 
                 <select name="sub_category" id="subCategory"
                     class="w-full border rounded-lg p-3 mt-2" required>
                 </select>
-            </div>
+            </div> --}}
 
             @error('scores')
                 <div class="bg-red-100 text-red-700 px-4 py-3 rounded-lg">
