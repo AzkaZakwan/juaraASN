@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Beli Paket</title>
@@ -9,12 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-[#FFF9F5] text-gray-800" style="font-family: 'Poppins', sans-serif;">
+<body class="bg-[#FFF9F5] text-gray-800 min-h-screen flex flex-col" style="font-family: 'Poppins', sans-serif;">
 
     @include('components.sidebar')
     @include('components.navbar')
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300">
+    </div>
 
-    <main class="max-w-4xl mx-auto px-4 pt-24 pb-12">
+    <main class="flex-1 max-w-4xl mx-auto px-4 pt-24 pb-12 w-full">
 
         <div class="bg-white  rounded-3xl p-8 shadow-sm">
 
@@ -75,13 +78,13 @@
             </div>
 
         </div>
-        
+
     </main>
     @include('components.footer')
 
-    @if(isset($snapToken))
-        <script src="https://app.sandbox.midtrans.com/snap/snap.js"
-            data-client-key="{{ config('midtrans.clientKey') }}"></script>
+    @if (isset($snapToken))
+        <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}">
+        </script>
 
         <script>
             snap.pay('{{ $snapToken }}', {
@@ -102,4 +105,5 @@
     @endif
 
 </body>
+
 </html>
