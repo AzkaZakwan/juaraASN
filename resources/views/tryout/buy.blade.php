@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beli Paket</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -19,13 +20,13 @@
 
     <main class="flex-1 max-w-4xl mx-auto px-4 pt-24 pb-12 w-full">
 
-        <div class="bg-white  rounded-3xl p-8 shadow-sm">
+        <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-sm">
 
             <span class="bg-orange-100 text-[#FF7A47] px-4 py-1 rounded-full text-sm font-bold">
                 Premium
             </span>
 
-            <h1 class="text-3xl font-bold mt-4 mb-3">
+            <h1 class="text-2xl sm:text-3xl font-bold mt-4 mb-3">
                 {{ $package->name }}
             </h1>
 
@@ -62,7 +63,7 @@
 
                 <p class="text-sm mb-2">Harga Paket</p>
 
-                <h2 class="text-4xl font-bold mb-6">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">
                     Rp {{ number_format($package->price, 0, ',', '.') }}
                 </h2>
 
@@ -70,7 +71,7 @@
                     @csrf
 
                     <button type="submit"
-                        class="bg-white text-[#FF7A47] px-8 py-3 rounded-xl font-bold hover:scale-105 transition">
+                        class="bg-white text-[#FF7A47] px-6 sm:px-8 py-3 rounded-xl font-bold hover:scale-105 transition">
                         Bayar Sekarang
                     </button>
                 </form>
