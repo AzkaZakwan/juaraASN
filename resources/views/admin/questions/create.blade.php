@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,7 @@
     @include('components.sideadmin')
     <!-- MOBILE NAVBAR -->
     <div
-        class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FF6A26] shadow-md px-4 flex items-center justify-between">
+        class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FFA35C] shadow-md px-4 flex items-center justify-between">
 
         <div class="flex items-center gap-3">
 
@@ -39,45 +40,46 @@
 
     <main class="lg:ml-64 min-h-screen p-4 sm:p-6 lg:p-8 mt-16 lg:mt-0">
 
-        <h1 class="text-3xl font-bold mb-6">
-            Tambah Soal
-        </h1>
+        <div class="max-w-5xl mx-auto">
 
-        <form action="{{ route('questions.store') }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-3xl shadow-xl p-5 sm:p-8 lg:p-10 w-full max-w-5xl space-y-6">
-            @csrf
-            <!-- Soal -->
-            <div>
-                <label class="font-semibold">Soal</label>
+            <h1 class="hidden lg:block text-4xl font-bold mb-6">
+                BANK SOAL
+            </h1>
 
-                <textarea name="question_text" rows="5" class="w-full border rounded-lg p-3 mt-2" required>{{ old('question_text') }}</textarea>
-            </div>
+            <form action="{{ route('questions.store') }}" method="POST" enctype="multipart/form-data"
+                class="bg-white rounded-3xl shadow-xl p-5 sm:p-8 lg:p-10 w-full space-y-6">
+                @csrf
+                <!-- Soal -->
+                <div>
+                    <label class="font-semibold">Soal</label>
 
-            <!-- Gambar Soal -->
-            <div>
-                <label class="font-semibold">Gambar Soal <span class="text-gray-400 text-sm">(opsional)</span></label>
+                    <textarea name="question_text" rows="5" class="w-full border rounded-lg p-3 mt-2" required>{{ old('question_text') }}</textarea>
+                </div>
 
-                <input type="file"
-                    name="question_image"
-                    accept="image/*"
-                    class="w-full border rounded-lg p-3 mt-2">
-            </div>
+                <!-- Gambar Soal -->
+                <div>
+                    <label class="font-semibold">Gambar Soal <span
+                            class="text-gray-400 text-sm">(opsional)</span></label>
 
-            <!-- Tipe -->
-            <div>
-                <label class="font-semibold">Tipe Soal</label>
+                    <input type="file" name="question_image" accept="image/*"
+                        class="w-full border rounded-lg p-3 mt-2">
+                </div>
 
-                <select name="question_type" id="questionType"
-                    class="w-full border rounded-lg p-3 mt-2">
+                <!-- Tipe -->
+                <div>
+                    <label class="font-semibold">Tipe Soal</label>
 
-                    <option value="TWK" {{ old('question_type') == 'TWK' ? 'selected' : '' }}>TWK</option>
-                    <option value="TIU" {{ old('question_type') == 'TIU' ? 'selected' : '' }}>TIU</option>
-                    <option value="TKP" {{ old('question_type') == 'TKP' ? 'selected' : '' }}>TKP</option>
+                    <select name="question_type" id="questionType" class="w-full border rounded-lg p-3 mt-2">
 
-                </select>
-            </div>
+                        <option value="TWK" {{ old('question_type') == 'TWK' ? 'selected' : '' }}>TWK</option>
+                        <option value="TIU" {{ old('question_type') == 'TIU' ? 'selected' : '' }}>TIU</option>
+                        <option value="TKP" {{ old('question_type') == 'TKP' ? 'selected' : '' }}>TKP</option>
 
-            <!-- Sub Kategori -->
-            {{-- <div>
+                    </select>
+                </div>
+
+                <!-- Sub Kategori -->
+                {{-- <div>
                 <label class="font-semibold">Sub Kategori</label>
 
                 <select name="sub_category" id="subCategory"
@@ -85,152 +87,144 @@
                 </select>
             </div> --}}
 
-            @error('scores')
-                <div class="bg-red-100 text-red-700 px-4 py-3 rounded-lg">
-                    {{ $message }}
-                </div>
-            @enderror
-            @error('correct_answer')
-                <div class="bg-red-100 text-red-700 px-4 py-3 rounded-lg">
-                    {{ $message }}
-                </div>
-            @enderror
-
-            <!-- Opsi -->
-            <div class="space-y-4">
-
-                @foreach (['A','B','C','D','E'] as $key => $label)
-
-                    <div class="border rounded-lg p-4">
-
-                        <label class="font-semibold">
-                            Opsi {{ $label }}
-                        </label>
-
-                        <input type="text"
-                            name="options[]"
-                            value="{{ old('options.' . $key) }}"
-                            class="w-full border rounded-lg p-2 mt-2"
-                            required>                                    
-                        
-                        <label class="block font-semibold mt-3">
-                            Gambar Opsi {{ $label }} <span class="text-gray-400 text-sm">(opsional)</span>
-                        </label>
-
-                        <input type="file"
-                            name="option_images[]"
-                            accept="image/*"
-                            class="w-full border rounded-lg p-2 mt-2">
-
-                        <!-- TWK/TIU -->
-                        <div class="correct-answer mt-3">
-                            <label class="flex items-center gap-2">
-                                <input type="radio"
-                                    name="correct_answer"
-                                    value="{{ $key }}"
-                                    {{ old('correct_answer') == $key ? 'checked' : '' }}>
-                                Jawaban Benar
-                            </label>
-                        </div>
-
-                        <!-- TKP -->
-                        <div class="score-input hidden mt-3">
-                            <label>Skor TKP</label>
-                            <input type="number" name="scores[]" value="{{ old('scores.' . $key) }}" min="1" max="5"
-                                class="w-full border rounded-lg p-2 mt-2">
-                        </div>
-
+                @error('scores')
+                    <div class="bg-red-100 text-red-700 px-4 py-3 rounded-lg">
+                        {{ $message }}
                     </div>
+                @enderror
+                @error('correct_answer')
+                    <div class="bg-red-100 text-red-700 px-4 py-3 rounded-lg">
+                        {{ $message }}
+                    </div>
+                @enderror
 
-                @endforeach
+                <!-- Opsi -->
+                <div class="space-y-4">
 
-            </div>
+                    @foreach (['A', 'B', 'C', 'D', 'E'] as $key => $label)
+                        <div class="border rounded-lg p-4">
 
-            <!-- Pembahasan -->
-            <div>
-                <label class="font-semibold">Pembahasan</label>
+                            <label class="font-semibold">
+                                Opsi {{ $label }}
+                            </label>
 
-                <textarea name="explanation" rows="5" class="w-full border rounded-lg p-3 mt-2">{{ old('explanation') }}</textarea>
-            </div>
+                            <input type="text" name="options[]" value="{{ old('options.' . $key) }}"
+                                class="w-full border rounded-lg p-2 mt-2" required>
 
-            <div class="flex gap-3">
-                <a href="{{ route('questions.index') }}"
-                    class="bg-red-500 text-white px-6 py-3 rounded-lg">
-                    Kembali
-                </a>
-                <button class="bg-[#FF7A47] text-white px-6 py-3 rounded-lg">
-                    Simpan Soal
-                </button> 
-            </div>
+                            <label class="block font-semibold mt-3">
+                                Gambar Opsi {{ $label }} <span class="text-gray-400 text-sm">(opsional)</span>
+                            </label>
 
-        </form>
+                            <input type="file" name="option_images[]" accept="image/*"
+                                class="w-full border rounded-lg p-2 mt-2">
+
+                            <!-- TWK/TIU -->
+                            <div class="correct-answer mt-3">
+                                <label class="flex items-center gap-2">
+                                    <input type="radio" name="correct_answer" value="{{ $key }}"
+                                        {{ old('correct_answer') == $key ? 'checked' : '' }}>
+                                    Jawaban Benar
+                                </label>
+                            </div>
+
+                            <!-- TKP -->
+                            <div class="score-input hidden mt-3">
+                                <label>Skor TKP</label>
+                                <input type="number" name="scores[]" value="{{ old('scores.' . $key) }}"
+                                    min="1" max="5" class="w-full border rounded-lg p-2 mt-2">
+                            </div>
+
+                        </div>
+                    @endforeach
+
+                </div>
+
+                <!-- Pembahasan -->
+                <div>
+                    <label class="font-semibold">Pembahasan</label>
+
+                    <textarea name="explanation" rows="5" class="w-full border rounded-lg p-3 mt-2">{{ old('explanation') }}</textarea>
+                </div>
+
+                <div class="flex gap-3">
+                    <a href="{{ route('questions.index') }}" class="bg-red-500 text-white px-6 py-3 rounded-lg">
+                        Kembali
+                    </a>
+                    <button class="bg-[#FFA35C] text-white px-6 py-3 rounded-lg">
+                        Simpan Soal
+                    </button>
+                </div>
+
+            </form>
+        </div>
 
     </main>
 
-<script>
-    const questionType = document.getElementById('questionType');
-    const subCategory = document.getElementById('subCategory');
+    <script>
+        const questionType = document.getElementById('questionType');
+        const subCategory = document.getElementById('subCategory');
 
-    const subCategories = {
-        TWK: [
-            'Nasionalisme',
-            'Integritas',
-            'Bela Negara',
-            'Pilar Negara',
-            'Bahasa Indonesia'
-        ],
-        TIU: [
-            'Verbal',
-            'Numerik',
-            'Figural'
-        ],
-        TKP: [
-            'Pelayanan Publik',
-            'Jejaring Kerja',
-            'Sosial Budaya',
-            'Profesionalisme',
-            'TIK',
-            'Anti Radikalisme'
-        ]
-    };
+        const subCategories = {
+            TWK: [
+                'Nasionalisme',
+                'Integritas',
+                'Bela Negara',
+                'Pilar Negara',
+                'Bahasa Indonesia'
+            ],
+            TIU: [
+                'Verbal',
+                'Numerik',
+                'Figural'
+            ],
+            TKP: [
+                'Pelayanan Publik',
+                'Jejaring Kerja',
+                'Sosial Budaya',
+                'Profesionalisme',
+                'TIK',
+                'Anti Radikalisme'
+            ]
+        };
 
-    function updateSubCategory() {
-        const selectedType = questionType.value;
-        const oldSubCategory = "{{ old('sub_category') }}";
+        function updateSubCategory() {
+            const selectedType = questionType.value;
+            const oldSubCategory = "{{ old('sub_category') }}";
 
-        subCategory.innerHTML = '';
+            subCategory.innerHTML = '';
 
-        subCategories[selectedType].forEach(item => {
-            const option = document.createElement('option');
-            option.value = item;
-            option.textContent = item;
+            subCategories[selectedType].forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                option.textContent = item;
 
-            if (oldSubCategory === item) {
-                option.selected = true;
-            }
+                if (oldSubCategory === item) {
+                    option.selected = true;
+                }
 
-            subCategory.appendChild(option);
-        });
-    }
+                subCategory.appendChild(option);
+            });
+        }
 
-    function toggleInputs() {
-        const isTKP = questionType.value === 'TKP';
+        function toggleInputs() {
+            const isTKP = questionType.value === 'TKP';
 
-        document.querySelectorAll('.score-input').forEach(el => {
-            el.classList.toggle('hidden', !isTKP);
-        });
+            document.querySelectorAll('.score-input').forEach(el => {
+                el.classList.toggle('hidden', !isTKP);
+            });
 
-        document.querySelectorAll('.correct-answer').forEach(el => {
-            el.classList.toggle('hidden', isTKP);
-        });
+            document.querySelectorAll('.correct-answer').forEach(el => {
+                el.classList.toggle('hidden', isTKP);
+            });
 
-        updateSubCategory();
-    }
+            updateSubCategory();
+        }
 
-    questionType.addEventListener('change', toggleInputs);
+        questionType.addEventListener('change', toggleInputs);
 
-    toggleInputs();
-</script>
+        toggleInputs();
+    </script>
 
 </body>
+
 </html>

@@ -15,7 +15,8 @@
 
     @include('components.sideadmin')
     <!-- MOBILE NAVBAR -->
-    <div class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FFA35C] shadow-md px-4 flex items-center justify-between">
+    <div
+        class="lg:hidden fixed top-0 left-0 w-full h-16 z-40 bg-[#FFA35C] shadow-md px-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <button id="openSidebar" class="p-2 rounded-lg hover:bg-white/20 transition text-white">
                 ☰
@@ -29,96 +30,87 @@
 
     <main class="lg:ml-64 min-h-screen p-6">
 
-        <h1 class="text-3xl font-bold mb-8">
-            Tambah Artikel
-        </h1>
+        <div class="max-w-5xl mx-auto">
 
-        <div class="bg-white rounded-3xl shadow-lg p-8 max-w-5xl">
+            <h1 class="text-3xl font-bold mb-8">
+                Tambah Artikel
+            </h1>
 
-            <form action="{{ route('admin.articles.store') }}"
-                method="POST"
-                enctype="multipart/form-data">
+            <div class="bg-white rounded-3xl shadow-lg p-8">
 
-                @csrf
+                <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data">
 
-                {{-- Judul --}}
-                <div class="mb-6">
+                    @csrf
 
-                    <label class="block font-semibold mb-2">
-                        Judul Artikel
-                    </label>
+                    {{-- Judul --}}
+                    <div class="mb-6">
 
-                    <input type="text"
-                        name="title"
-                        value="{{ old('title') }}"
-                        class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-orange-300"
-                        required>
+                        <label class="block font-semibold mb-2">
+                            Judul Artikel
+                        </label>
 
-                </div>
+                        <input type="text" name="title" value="{{ old('title') }}"
+                            class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-orange-300" required>
 
-                {{-- Gambar --}}
-                <div class="mb-6">
+                    </div>
 
-                    <label class="block font-semibold mb-2">
-                        Gambar Artikel
-                    </label>
+                    {{-- Gambar --}}
+                    <div class="mb-6">
 
-                    <input type="file"
-                        name="image"
-                        class="w-full border rounded-xl px-4 py-3">
+                        <label class="block font-semibold mb-2">
+                            Gambar Artikel
+                        </label>
 
-                </div>
+                        <input type="file" name="image" class="w-full border rounded-xl px-4 py-3">
 
-                {{-- Isi --}}
-                <div class="mb-6">
+                    </div>
 
-                    <label class="block font-semibold mb-2">
-                        Isi Artikel
-                    </label>
+                    {{-- Isi --}}
+                    <div class="mb-6">
 
-                    <textarea name="content"
-                        rows="12"
-                        class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-orange-300"
-                        required>{{ old('content') }}</textarea>
+                        <label class="block font-semibold mb-2">
+                            Isi Artikel
+                        </label>
 
-                </div>
+                        <textarea name="content" rows="12" class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-orange-300"
+                            required>{{ old('content') }}</textarea>
 
-                {{-- Publish --}}
-                <div class="mb-8">
+                    </div>
 
-                    <label class="flex items-center gap-3">
+                    {{-- Publish --}}
+                    <div class="mb-8">
 
-                        <input type="checkbox"
-                            name="is_published"
-                            checked>
+                        <label class="flex items-center gap-3">
 
-                        <span>
-                            Publish Artikel
-                        </span>
+                            <input type="checkbox" name="is_published" checked>
 
-                    </label>
+                            <span>
+                                Publish Artikel
+                            </span>
 
-                </div>
+                        </label>
 
-                <div class="flex justify-end gap-3">
+                    </div>
 
-                    <a href="{{ route('admin.articles.index') }}"
-                        class="bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600">
-                        Kembali
-                    </a>
+                    <div class="flex justify-end gap-3">
 
-                    <button type="submit"
-                        class="bg-[#FFA35C] text-white px-6 py-3 rounded-xl hover:bg-[#f08b36]">
-                        Simpan Artikel
-                    </button>
+                        <a href="{{ route('admin.articles.index') }}"
+                            class="bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600">
+                            Kembali
+                        </a>
 
-                </div>
+                        <button type="submit" class="bg-[#FFA35C] text-white px-6 py-3 rounded-xl hover:bg-[#f08b36]">
+                            Simpan Artikel
+                        </button>
 
-            </form>
+                    </div>
 
+                </form>
+
+            </div>
         </div>
-
     </main>
 
 </body>
+
 </html>

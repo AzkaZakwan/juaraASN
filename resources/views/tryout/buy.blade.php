@@ -18,7 +18,7 @@
     <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300">
     </div>
 
-    <main class="flex-1 max-w-4xl mx-auto px-4 pt-24 pb-12 w-full">
+    <main class="flex-1 max-w-4xl mx-auto px-4 pt-32 pb-12 w-full">
 
         <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-sm">
 

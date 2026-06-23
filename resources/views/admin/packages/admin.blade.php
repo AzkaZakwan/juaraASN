@@ -34,7 +34,7 @@
 
         <div class="bg-white rounded-3xl shadow-xl p-5 sm:p-8 lg:p-10 w-full max-w-5xl mx-auto">
 
-            <h1 class="text-4xl font-bold mb-8">
+            <h1 class="hidden lg:block text-4xl font-bold mb-6">
                 Daftar Try Out
             </h1>
 

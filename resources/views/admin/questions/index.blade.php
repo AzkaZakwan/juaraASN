@@ -31,7 +31,7 @@
 
     <main class="lg:ml-64 min-h-screen p-4 sm:p-6 lg:p-8 mt-16 lg:mt-0">
 
-        <h1 class="text-4xl font-bold mb-6">
+        <h1 class="hidden lg:block text-4xl font-bold mb-6">
             BANK SOAL
         </h1>
 
